@@ -1,5 +1,8 @@
-﻿using GoogleBooks.Client.Interfaces;
-using GoogleBooks.Client.Services;
+﻿using GoogleBooks.Client.Configuration;
+using GoogleBooks.Client.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
 
 namespace GoogleBooks.Client.Integration.Tests
 {
@@ -7,7 +10,15 @@ namespace GoogleBooks.Client.Integration.Tests
     {
         protected IGoogleBooksClientService CreateGoogleBooksClientService()
         {
-            return new GoogleBooksClientService();
+            var serviceCollection = new ServiceCollection();
+            var serviceProvider = ServicesConfiguration.ConfigurateGoogleBooksClientServices(serviceCollection);
+            
+            return serviceProvider.GetRequiredService<IGoogleBooksClientService>();
+        }
+
+        private HttpClient CreateHttpClient()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -13,9 +13,9 @@ namespace GoogleBooks.Client.Integration.Tests
         }
 
         [Fact]
-        public void Test1()
+        public async void Test1()
         {
-
+            await _googleBooksClientService.TestClient();
         }
     }
 }
