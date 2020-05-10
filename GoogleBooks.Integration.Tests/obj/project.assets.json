@@ -3476,11 +3476,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\GoogleBooks.Integration.Tests.csproj",
+      "projectUniqueName": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\GoogleBooks.Integration.Tests.csproj",
       "projectName": "GoogleBooks.Integration.Tests",
-      "projectPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\GoogleBooks.Integration.Tests.csproj",
+      "projectPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\GoogleBooks.Integration.Tests.csproj",
       "packagesPath": "C:\\Users\\aat\\.nuget\\packages\\",
-      "outputPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\obj\\",
+      "outputPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

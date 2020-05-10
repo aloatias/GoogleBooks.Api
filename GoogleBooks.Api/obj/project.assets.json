@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api.csproj",
+      "projectUniqueName": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api.csproj",
       "projectName": "GoogleBooks.Api",
-      "projectPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api.csproj",
+      "projectPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api.csproj",
       "packagesPath": "C:\\Users\\aat\\.nuget\\packages\\",
-      "outputPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Api\\obj\\",
+      "outputPath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

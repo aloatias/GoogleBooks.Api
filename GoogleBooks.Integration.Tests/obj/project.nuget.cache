@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LAUb8CIBsIIX8ZTuq8y4TLSRsYeLwjzWiI991K7iz+wEQ4raeJkCYqPe8H4Rkr6GAxgFSxTLmaz5Uv1VMIkEow==",
+  "dgSpecHash": "mNegCbTVaU1qLNc123e307G4PuYvYWo1PZgUPB9QeVTONXSe8vke47r3oIY/CtmUI0P9X327pzuwJKN3NOMQKg==",
   "success": true,
-  "projectFilePath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\GoogleBooks.Integration.Tests.csproj",
+  "projectFilePath": "E:\\Personal\\Projects\\GoogleBooks\\GoogleBooks.Api\\GoogleBooks.Integration.Tests\\GoogleBooks.Integration.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aat\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",
     "C:\\Users\\aat\\.nuget\\packages\\microsoft.codecoverage\\16.5.0\\microsoft.codecoverage.16.5.0.nupkg.sha512",
