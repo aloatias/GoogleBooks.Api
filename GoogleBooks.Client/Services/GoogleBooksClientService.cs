@@ -21,7 +21,6 @@ namespace GoogleBooks.Client.Services
 
             var books = JsonConvert.DeserializeObject<Books>(responseString);
 
-
             throw new System.NotImplementedException();
         }
     }

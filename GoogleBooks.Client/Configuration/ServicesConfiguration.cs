@@ -10,7 +10,7 @@ namespace GoogleBooks.Client.Configuration
 {
     public static class ServicesConfiguration
     {
-        public static ServiceProvider ConfigurateGoogleBooksClientServices(this IServiceCollection serviceCollection)
+        public static ServiceProvider ConfigureGoogleBooksClientServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IGoogleBooksClientService, GoogleBooksClientService>();
             serviceCollection.AddHttpClient<IGoogleBooksClientService, GoogleBooksClientService>(
