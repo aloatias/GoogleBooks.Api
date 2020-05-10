@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace GoogleBooks.Integration.Tests
+namespace GoogleBooks.Api.Integration.Tests
 {
     public class GetTests : TestFactory
     {

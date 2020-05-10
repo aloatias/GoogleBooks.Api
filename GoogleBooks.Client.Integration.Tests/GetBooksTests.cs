@@ -1,7 +1,7 @@
 using GoogleBooks.Client.Interfaces;
 using Xunit;
 
-namespace GoogleBooks.Client.Tests
+namespace GoogleBooks.Client.Integration.Tests
 {
     public class GetBooksTests : TestFactory
     {
