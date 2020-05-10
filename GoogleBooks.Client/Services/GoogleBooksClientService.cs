@@ -15,13 +15,11 @@ namespace GoogleBooks.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task TestClient()
+        public async Task<Books> TestClient()
         {
             var responseString = await _httpClient.GetStringAsync("volumes?q=federer");
 
-            var books = JsonConvert.DeserializeObject<Books>(responseString);
-
-            throw new System.NotImplementedException();
+            return JsonConvert.DeserializeObject<Books>(responseString);
         }
     }
 }

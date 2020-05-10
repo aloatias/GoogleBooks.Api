@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using GoogleBooks.Client.Dtos;
+using System.Threading.Tasks;
 
 namespace GoogleBooks.Client.Interfaces
 {
     public interface IGoogleBooksClientService
     {
-        Task TestClient();
+        Task<Books> TestClient();
     }
 }
