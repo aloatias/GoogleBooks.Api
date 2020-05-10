@@ -1,6 +1,6 @@
 ﻿namespace GoogleBooks.Client.Interfaces
 {
-    public interface IGoogleBooksClient
+    public interface IGoogleBooksClientService
     {
     }
 }

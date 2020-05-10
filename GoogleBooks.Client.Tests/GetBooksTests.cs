@@ -5,11 +5,11 @@ namespace GoogleBooks.Client.Tests
 {
     public class GetBooksTests : TestFactory
     {
-        private readonly IGoogleBooksClient _googleBooksClient;
+        private readonly IGoogleBooksClientService _googleBooksClientService;
 
         public GetBooksTests()
         {
-
+            _googleBooksClientService = CreateGoogleBooksClientService();
         }
 
         [Fact]
