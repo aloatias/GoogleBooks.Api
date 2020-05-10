@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleBooks.Api", "GoogleBooks.Api\GoogleBooks.Api.csproj", "{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Api", "GoogleBooks.Api\GoogleBooks.Api.csproj", "{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{771FFFBA-4837-4EC4-B503-223F6E42E993}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Integration.Tests", "GoogleBooks.Integration.Tests\GoogleBooks.Integration.Tests.csproj", "{CFBF1507-F6DE-47C9-BF78-EEC6A390D958}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFBF1507-F6DE-47C9-BF78-EEC6A390D958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFBF1507-F6DE-47C9-BF78-EEC6A390D958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFBF1507-F6DE-47C9-BF78-EEC6A390D958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFBF1507-F6DE-47C9-BF78-EEC6A390D958}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CFBF1507-F6DE-47C9-BF78-EEC6A390D958} = {771FFFBA-4837-4EC4-B503-223F6E42E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {49DD649C-E0CE-4CF4-AF3C-784667714715}
