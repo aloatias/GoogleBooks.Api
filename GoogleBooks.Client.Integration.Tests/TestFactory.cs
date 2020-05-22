@@ -4,32 +4,43 @@ using GoogleBooks.Client.Interfaces;
 using GoogleBooks.Client.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System;
 using System.Net.Http;
 
 namespace GoogleBooks.Client.Integration.Tests
 {
     public class TestFactory
     {
+        private const string _baseUrlSectionName = "Urls:Base";
+        private const string _SearchDefaultBooksUrl = "Urls:SearchDefaultBooks";
+
+        private IConfiguration _configuration;
+
         protected IGoogleBooksClientService CreateGoogleBooksClientService()
         {
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true);
+
+            _configuration = builder.Build();
+
             return new GoogleBooksClientService(CreateUrlFactory(), CreateHttpClient());
         }
 
         private HttpClient CreateHttpClient()
         {
-            return new HttpClient();
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(_configuration.GetSection(_baseUrlSectionName).Value.ToString())
+            };
+
+            return httpClient;
         }
 
         private IUrlFactory CreateUrlFactory()
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true);
-            
-            IConfiguration configuration = builder.Build();
-
             var googleBooksUrls = new GoogleBooksUrlOptions
             {
-                SearchDefaultBooks = configuration.GetSection("Urls:SearchDefaultBooks").Value.ToString()
+                SearchDefaultBooks = _configuration.GetSection(_SearchDefaultBooksUrl).Value.ToString()
             };
             IOptions<GoogleBooksUrlOptions> options = Options.Create(googleBooksUrls);
 

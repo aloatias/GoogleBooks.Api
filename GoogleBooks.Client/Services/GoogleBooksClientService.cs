@@ -11,7 +11,7 @@ namespace GoogleBooks.Client.Services
         private readonly IUrlFactory _urlFactory;
         private readonly HttpClient _httpClient;
 
-        public GoogleBooksClientService(IUrlFactory urlFactory,HttpClient httpClient)
+        public GoogleBooksClientService(IUrlFactory urlFactory, HttpClient httpClient)
         {
             _urlFactory = urlFactory;
             _httpClient = httpClient;

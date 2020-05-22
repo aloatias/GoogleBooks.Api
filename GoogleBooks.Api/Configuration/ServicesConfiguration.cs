@@ -13,7 +13,6 @@ namespace GoogleBooks.Api.Configuration
         {
             // Api configuration
             services.Configure<GoogleBooksUrlOptions>(configuration.GetSection(_googleBooksApiUrlsSection));
-            services.AddSingleton(typeof(IConfiguration), configuration);
 
             // Google Books Client configuration
             services.ConfigureGoogleBooksClientServices(configuration);
