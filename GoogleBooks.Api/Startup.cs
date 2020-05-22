@@ -1,4 +1,4 @@
-using GoogleBooks.Client.Configuration;
+using GoogleBooks.Api.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +21,7 @@ namespace GoogleBooks.Api
         {
             services.AddControllers();
 
-            // Google Books Client configuration
-            services.ConfigureGoogleBooksClientServices();
+            services.ConfigureApiServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

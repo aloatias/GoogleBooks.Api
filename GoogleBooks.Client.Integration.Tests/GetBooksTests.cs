@@ -15,7 +15,7 @@ namespace GoogleBooks.Client.Integration.Tests
         [Fact]
         public async void Test1()
         {
-            var getBooksActualResult = await _googleBooksClientService.TestClient();
+            var getBooksActualResult = await _googleBooksClientService.GetDefaultBooks("federer");
 
             Assert.NotNull(getBooksActualResult);
         }

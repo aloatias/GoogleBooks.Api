@@ -19,9 +19,9 @@ namespace GoogleBooks.Api.Controllers
         [Route("GetAllBooks")]
         public async Task<IActionResult> GetAllBooks()
         {
-            await _googleBooksClientService.TestClient();
+            var defaultBooksResult = await _googleBooksClientService.GetDefaultBooks("federer");
 
-            return Ok("working");
+            return Ok(defaultBooksResult);
         }
     }
 }

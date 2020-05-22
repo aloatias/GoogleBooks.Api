@@ -1,5 +1,7 @@
-﻿using GoogleBooks.Client.Interfaces;
+﻿using GoogleBooks.Client.Factories;
+using GoogleBooks.Client.Interfaces;
 using GoogleBooks.Client.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
@@ -10,10 +12,11 @@ namespace GoogleBooks.Client.Configuration
 {
     public static class ServicesConfiguration
     {
-        public static ServiceProvider ConfigureGoogleBooksClientServices(this IServiceCollection serviceCollection)
+        public static ServiceProvider ConfigureGoogleBooksClientServices(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
+            serviceCollection.AddScoped<IUrlFactory, UrlFactory>();
             serviceCollection.AddHttpClient<IGoogleBooksClientService, GoogleBooksClientService>(
-                client => client.BaseAddress = new Uri("https://www.googleapis.com/books/v1/"));
+                client => client.BaseAddress = new Uri(configuration.GetSection("Urls:Base").Value.ToString()));
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
