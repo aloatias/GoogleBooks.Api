@@ -20,7 +20,7 @@
     "GoogleBooks.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Book/GetAllBooks",
+      "launchUrl": "Book/GetAllBooksDefault",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
