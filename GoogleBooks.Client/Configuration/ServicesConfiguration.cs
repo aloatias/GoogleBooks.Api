@@ -12,7 +12,6 @@ namespace GoogleBooks.Client.Configuration
     {
         public static ServiceProvider ConfigureGoogleBooksClientServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IGoogleBooksClientService, GoogleBooksClientService>();
             serviceCollection.AddHttpClient<IGoogleBooksClientService, GoogleBooksClientService>(
                 client => client.BaseAddress = new Uri("https://www.googleapis.com/books/v1/"));
 
