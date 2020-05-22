@@ -12,11 +12,13 @@ namespace GoogleBooks.Client.Configuration
 {
     public static class ServicesConfiguration
     {
+        private const string _baseUrlSectionName = "Urls:Base";
+
         public static ServiceProvider ConfigureGoogleBooksClientServices(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddScoped<IUrlFactory, UrlFactory>();
             serviceCollection.AddHttpClient<IGoogleBooksClientService, GoogleBooksClientService>(
-                client => client.BaseAddress = new Uri(configuration.GetSection("Urls:Base").Value.ToString()));
+                client => client.BaseAddress = new Uri(configuration.GetSection(_baseUrlSectionName).Value.ToString()));
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 

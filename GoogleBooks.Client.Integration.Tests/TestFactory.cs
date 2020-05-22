@@ -1,13 +1,9 @@
-﻿using GoogleBooks.Client.Configuration;
-using GoogleBooks.Client.Configuration.ConfigurationOptions;
+﻿using GoogleBooks.Client.Configuration.ConfigurationOptions;
 using GoogleBooks.Client.Factories;
 using GoogleBooks.Client.Interfaces;
 using GoogleBooks.Client.Services;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
-using System;
 using System.Net.Http;
 
 namespace GoogleBooks.Client.Integration.Tests
@@ -16,16 +12,6 @@ namespace GoogleBooks.Client.Integration.Tests
     {
         protected IGoogleBooksClientService CreateGoogleBooksClientService()
         {
-            //var builder = new ConfigurationBuilder()
-            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            //var configuration = builder.Build();
-
-            //var serviceCollection = new ServiceCollection();
-            //var serviceProvider = ServicesConfiguration.ConfigureGoogleBooksClientServices(serviceCollection, configuration);
-
-            //return serviceProvider.GetRequiredService<IGoogleBooksClientService>();
-
             return new GoogleBooksClientService(CreateUrlFactory(), CreateHttpClient());
         }
 
@@ -35,10 +21,19 @@ namespace GoogleBooks.Client.Integration.Tests
         }
 
         private IUrlFactory CreateUrlFactory()
-        {   
-            var urlOptions = new OptionsFactory(new GoogleBooksUrlOptions(), ).Create(IOptions<GoogleBooksUrlOptions>);
+        {
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true);
+            
+            IConfiguration configuration = builder.Build();
 
-            return new UrlFactory(urlOptions.Create());
+            var googleBooksUrls = new GoogleBooksUrlOptions
+            {
+                SearchDefaultBooks = configuration.GetSection("Urls:SearchDefaultBooks").Value.ToString()
+            };
+            IOptions<GoogleBooksUrlOptions> options = Options.Create(googleBooksUrls);
+
+            return new UrlFactory(options);
         }
     }
 }
