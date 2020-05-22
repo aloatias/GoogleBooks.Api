@@ -19,7 +19,7 @@ namespace GoogleBooks.Api.Controllers
         [Route("GetBooksByKeyword")]
         public async Task<IActionResult> GetBooksByKeyword(string keywords)
         {
-            var defaultBooksResult = await _googleBooksClientService.GetDefaultBooks(keywords);
+            var defaultBooksResult = await _googleBooksClientService.GetBooksByKeyword(keywords);
 
             return Ok(defaultBooksResult);
         }
@@ -28,7 +28,7 @@ namespace GoogleBooks.Api.Controllers
         [Route("GetAllBooksDefault")]
         public async Task<IActionResult> GetAllBooksDefault()
         {
-            var defaultBooksResult = await _googleBooksClientService.GetDefaultBooks("tennis");
+            var defaultBooksResult = await _googleBooksClientService.GetBooksByKeyword("tennis");
 
             return Ok(defaultBooksResult);
         }

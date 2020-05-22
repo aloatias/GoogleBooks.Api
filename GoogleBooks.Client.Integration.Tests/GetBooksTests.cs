@@ -13,11 +13,18 @@ namespace GoogleBooks.Client.Integration.Tests
         }
 
         [Fact]
-        public async void Test1()
+        public async void Should_GetBooksByKeyword_()
         {
-            var getBooksActualResult = await _googleBooksClientService.GetDefaultBooks("tennis");
+            // Prepare
+            string keyword = "tennis";
 
+            // Act
+            var getBooksActualResult = await _googleBooksClientService.GetBooksByKeyword(keyword);
+
+            // Test
             Assert.NotNull(getBooksActualResult);
+            Assert.True(getBooksActualResult.TotalItems > 0);
+            Assert.NotNull(getBooksActualResult.Kind);
         }
     }
 }

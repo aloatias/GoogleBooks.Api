@@ -5,6 +5,6 @@ namespace GoogleBooks.Client.Interfaces
 {
     public interface IGoogleBooksClientService
     {
-        Task<Books> GetDefaultBooks(string searchedKeywords);
+        Task<Books> GetBooksByKeyword(string searchedKeywords);
     }
 }
