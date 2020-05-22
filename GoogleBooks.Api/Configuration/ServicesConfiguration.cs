@@ -7,12 +7,12 @@ namespace GoogleBooks.Api.Configuration
 {
     public static class ServicesConfiguration
     {
-        private const string _googleBooksApiUrlsSection = "Urls";
+        private const string _urlsSection = "Urls";
 
         public static void ConfigureApiServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Api configuration
-            services.Configure<GoogleBooksUrlOptions>(configuration.GetSection(_googleBooksApiUrlsSection));
+            services.Configure<GoogleBooksUrlOptions>(configuration.GetSection(_urlsSection));
 
             // Google Books Client configuration
             services.ConfigureGoogleBooksClientServices(configuration);
