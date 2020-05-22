@@ -2,6 +2,6 @@
 {
     public interface IUrlFactory
     {
-        string GetSearchDefaultsBookUrl(string searchedkeywords);
+        string GetSearchDefaultsBooksUrl(string keywords);
     }
 }
