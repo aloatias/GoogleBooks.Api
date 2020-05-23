@@ -18,7 +18,7 @@ namespace GoogleBooks.Client.Factories
             return $"{ _options.GetBookDetails }{ bookId }";
         }
 
-        public string GetSearchDefaultsBooksUrl(string keywords)
+        public string GetDefaultsBooksUrl(string keywords)
         {
             return $"{ _options.GetDefaultBooks }{ keywords }";
         }

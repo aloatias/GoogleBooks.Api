@@ -4,6 +4,6 @@
     {
         string GetBookDetailsUrl(string bookId);
 
-        string GetSearchDefaultsBooksUrl(string keywords);
+        string GetDefaultsBooksUrl(string keywords);
     }
 }
