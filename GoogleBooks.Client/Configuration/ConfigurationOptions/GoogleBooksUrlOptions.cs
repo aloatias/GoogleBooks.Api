@@ -2,6 +2,8 @@
 {
     public class GoogleBooksUrlOptions
     {
-        public string SearchDefaultBooks { get; set; }
+        public string GetBookDetails { get; set; }
+
+        public string GetDefaultBooks { get; set; }
     }
 }

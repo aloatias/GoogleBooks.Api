@@ -12,7 +12,8 @@ namespace GoogleBooks.Client.Integration.Tests
     public class TestFactory
     {
         private const string _baseUrlSectionName = "Urls:Base";
-        private const string _SearchDefaultBooksUrl = "Urls:SearchDefaultBooks";
+        private const string _getDefaultBooksUrl = "Urls:GetDefaultBooks";
+        private const string _getBookDetailsUrl = "Urls:GetBookDetails";
 
         private IConfiguration _configuration;
 
@@ -40,7 +41,8 @@ namespace GoogleBooks.Client.Integration.Tests
         {
             var googleBooksUrls = new GoogleBooksUrlOptions
             {
-                SearchDefaultBooks = _configuration.GetSection(_SearchDefaultBooksUrl).Value.ToString()
+                GetBookDetails = _configuration.GetSection(_getBookDetailsUrl).Value.ToString(),
+                GetDefaultBooks = _configuration.GetSection(_getDefaultBooksUrl).Value.ToString()
             };
             IOptions<GoogleBooksUrlOptions> options = Options.Create(googleBooksUrls);
 

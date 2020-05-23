@@ -6,6 +6,6 @@
 
         public int TotalItems { get; set; }
 
-        public BookDetail[] Items { get; set; }
+        public BookDetailsLite[] Items { get; set; }
     }
 }

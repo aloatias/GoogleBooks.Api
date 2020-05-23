@@ -17,7 +17,15 @@ namespace GoogleBooks.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Books> GetBooksByKeyword(string keywords)
+        public async Task<BookDetailsFull> GetBookDetailsByIdAsync(string bookId)
+        {
+            var url = _urlFactory.GetBookDetailsUrl(bookId);
+            var responseString = await _httpClient.GetStringAsync(url);
+
+            return JsonConvert.DeserializeObject<BookDetailsFull>(responseString);
+        }
+
+        public async Task<Books> GetBooksByKeywordAsync(string keywords)
         {
             var url = _urlFactory.GetSearchDefaultsBooksUrl(keywords);
             var responseString = await _httpClient.GetStringAsync(url);
