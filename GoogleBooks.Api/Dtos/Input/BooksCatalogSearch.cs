@@ -1,11 +1,6 @@
 ﻿namespace GoogleBooks.Api.Dtos
 {
-    public class BooksCatalogSearch
+    public class BooksCatalogSearch : PagingInfo
     {
-        public string Keywords { get; set; }
-
-        public int PageSize { get; set; }
-
-        public int PageNumber { get; set; }
     }
 }

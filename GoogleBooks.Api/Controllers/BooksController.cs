@@ -28,7 +28,7 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpGet]
         [Route("GetBooksByKeyword")]
-        public async Task<IActionResult> GetBooksByKeyword(BooksCatalogSearch catalogBooksSearch)
+        public async Task<IActionResult> GetBooksByKeyword(BooksCatalogSearchResult catalogBooksSearch)
         {
             return Ok(await _booksService.GetBooksByKeywordAsync(catalogBooksSearch));
         }

@@ -35,7 +35,7 @@ namespace GoogleBooks.Api.Services
             return new BookDetailsFullResult(bookDetails, StatusEnum.Ok);
         }
 
-        public async Task<BooksByKeywordResult> GetBooksByKeywordAsync(BooksCatalogSearch catalogBooksSearch)
+        public async Task<BooksByKeywordsResult> GetBooksByKeywordAsync(BooksCatalogSearchResult catalogBooksSearch)
         {
             // TODO: Validate keywords before calling google client
 
@@ -43,7 +43,15 @@ namespace GoogleBooks.Api.Services
 
             // Map result to BooksCatalog
 
-            return new BooksByKeywordResult(new BooksCatalog(), StatusEnum.Ok);
+            var booksCatalogResult = new BooksCatalogSearchResult
+            {
+                Keywords = catalogBooksSearch.Keywords,
+                PageNumber = catalogBooksSearch.PageNumber,
+                PageSize = catalogBooksSearch.PageSize,
+                TotalItems = result.TotalItems
+            };
+
+            return new BooksByKeywordsResult(new BooksCatalog(), booksCatalogResult, StatusEnum.Ok);
         }
     }
 }

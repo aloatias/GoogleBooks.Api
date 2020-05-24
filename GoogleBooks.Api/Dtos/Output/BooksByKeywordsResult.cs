@@ -2,22 +2,19 @@
 
 namespace GoogleBooks.Api.Dtos.Output
 {
-    public class BooksByKeywordResult : ResultBase
+    public class BooksByKeywordsResult : ResultBase
     {
-        public int TotalResults { get; private set; }
-
-        public int PageNumber { get; set; }
-
-        public int PageSize { get; set; }
+        public PagingInfo PagingInfo { get; private set; }
 
         public BooksCatalog BooksCatalog { get; private set; }
 
-        public BooksByKeywordResult(BooksCatalog booksCatalog, StatusEnum status) : base(status)
+        public BooksByKeywordsResult(BooksCatalog booksCatalog, PagingInfo pagingInfo, StatusEnum status) : base(status)
         {
             BooksCatalog = booksCatalog;
+            PagingInfo = pagingInfo;
         }
 
-        public BooksByKeywordResult(ErrorBase error, StatusEnum status) : base(error, status)
+        public BooksByKeywordsResult(ErrorBase error, StatusEnum status) : base(error, status)
         {
         }
     }
