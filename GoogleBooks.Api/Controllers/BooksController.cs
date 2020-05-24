@@ -1,4 +1,4 @@
-﻿using GoogleBooks.Client.Interfaces;
+﻿using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,20 +8,18 @@ namespace GoogleBooks.Api.Controllers
     [Route("[controller]")]
     public class BooksController : Controller
     {
-        private readonly IGoogleBooksClientService _googleBooksClient;
+        private readonly IBooksService _booksService;
 
-        public BooksController(IGoogleBooksClientService googleBooksClientService)
+        public BooksController(IBooksService booksService)
         {
-            _googleBooksClient = googleBooksClientService;
+            _booksService = booksService;
         }
 
         [HttpGet]
         [Route("GetBooksByKeyword")]
         public async Task<IActionResult> GetBooksByKeyword(string keywords, int maxResults)
         {
-            var defaultBooksResult = await _googleBooksClient.GetBooksByKeywordAsync(keywords, maxResults);
-
-            return Ok(defaultBooksResult);
+            return Ok(await _booksService.GetBooksByKeywordAsync(keywords, maxResults));
         }
     }
 }

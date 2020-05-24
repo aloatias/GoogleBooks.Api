@@ -8,10 +8,5 @@
     <ProjectReference Include="..\GoogleBooks.Client\GoogleBooks.Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 
 </Project>
