@@ -6,8 +6,8 @@
 
         void SetBookDetailsUrl(string bookId);
 
-        void SetDefaultsBooksUrl(string keywords);
+        void SetBookCatalogSearchUrl(string keywords);
 
-        void SetMaxResults(int maxResults);
+        void SetMaxResultsParameter(int maxResults);
     }
 }

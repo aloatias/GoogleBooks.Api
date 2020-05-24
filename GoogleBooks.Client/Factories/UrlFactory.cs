@@ -20,12 +20,12 @@ namespace GoogleBooks.Client.Factories
             Url = $"{ _options.GetBookDetails }{ bookId }";
         }
 
-        public void SetDefaultsBooksUrl(string keywords)
+        public void SetBookCatalogSearchUrl(string keywords)
         {
             Url = $"{ _options.GetDefaultBooks }{ keywords }";
         }
 
-        public void SetMaxResults(int maxResults)
+        public void SetMaxResultsParameter(int maxResults)
         {
             Url +=  $"{ _options.MaxResultsParameter }{ maxResults }";
         }
