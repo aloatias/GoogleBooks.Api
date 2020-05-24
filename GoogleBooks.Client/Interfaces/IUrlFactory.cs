@@ -2,8 +2,12 @@
 {
     public interface IUrlFactory
     {
-        string GetBookDetailsUrl(string bookId);
+        string Url { get; }
 
-        string GetDefaultsBooksUrl(string keywords);
+        void SetBookDetailsUrl(string bookId);
+
+        void SetDefaultsBooksUrl(string keywords);
+
+        void SetMaxResults(int maxResults);
     }
 }

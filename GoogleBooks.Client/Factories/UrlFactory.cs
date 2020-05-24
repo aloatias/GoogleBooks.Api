@@ -13,14 +13,21 @@ namespace GoogleBooks.Client.Factories
             _options = configuration.Value;
         }
 
-        public string GetBookDetailsUrl(string bookId)
+        public string Url { get; private set; }
+
+        public void SetBookDetailsUrl(string bookId)
         {
-            return $"{ _options.GetBookDetails }{ bookId }";
+            Url = $"{ _options.GetBookDetails }{ bookId }";
         }
 
-        public string GetDefaultsBooksUrl(string keywords)
+        public void SetDefaultsBooksUrl(string keywords)
         {
-            return $"{ _options.GetDefaultBooks }{ keywords }";
+            Url = $"{ _options.GetDefaultBooks }{ keywords }";
+        }
+
+        public void SetMaxResults(int maxResults)
+        {
+            Url +=  $"{ _options.MaxResults }{ maxResults }";
         }
     }
 }

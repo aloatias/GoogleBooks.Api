@@ -1,4 +1,5 @@
 using GoogleBooks.Client.Interfaces;
+using System.Linq;
 using Xunit;
 
 namespace GoogleBooks.Client.Integration.Tests
@@ -17,13 +18,14 @@ namespace GoogleBooks.Client.Integration.Tests
         {
             // Prepare
             string keyword = "tennis";
+            int expectedItemsNumber = 10;
 
             // Act
-            var actualResult = await _googleBooksClientService.GetBooksByKeywordAsync(keyword);
+            var actualResult = await _googleBooksClientService.GetBooksByKeywordAsync(keyword, expectedItemsNumber);
 
             // Test
             Assert.NotNull(actualResult);
-            Assert.True(actualResult.TotalItems > 0);
+            Assert.Equal(expectedItemsNumber, actualResult.Items.Count()); ;
             Assert.NotNull(actualResult.Kind);
         }
 
@@ -32,13 +34,15 @@ namespace GoogleBooks.Client.Integration.Tests
         {
             // Prepare
             string keyword = "tennis";
+            int expectedItemsNumber = 40;
 
             // Act
-            var actualGetBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync(keyword);
+            var actualGetBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync(keyword, expectedItemsNumber);
             var actualGetBookDetailsResult = await _googleBooksClientService.GetBookDetailsByIdAsync(actualGetBooksResult.Items[0].Id);
 
             // Test
             Assert.NotNull(actualGetBookDetailsResult);
+            Assert.Equal(expectedItemsNumber, actualGetBooksResult.Items.Count());
         }
     }
 }

@@ -17,18 +17,18 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpGet]
         [Route("GetBooksByKeyword")]
-        public async Task<IActionResult> GetBooksByKeyword(string keywords)
+        public async Task<IActionResult> GetBooksByKeyword(string keywords, int maxResults)
         {
-            var defaultBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync(keywords);
+            var defaultBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync(keywords, maxResults);
 
             return Ok(defaultBooksResult);
         }
 
         [HttpGet]
         [Route("GetAllBooksDefault")]
-        public async Task<IActionResult> GetAllBooksDefault()
+        public async Task<IActionResult> GetAllBooksDefault(int maxResults)
         {
-            var defaultBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync("tennis");
+            var defaultBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync("tennis", maxResults);
 
             return Ok(defaultBooksResult);
         }

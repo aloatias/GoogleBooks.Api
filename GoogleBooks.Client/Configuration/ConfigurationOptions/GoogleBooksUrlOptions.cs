@@ -5,5 +5,7 @@
         public string GetBookDetails { get; set; }
 
         public string GetDefaultBooks { get; set; }
+
+        public string MaxResults { get; set; }
     }
 }

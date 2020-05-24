@@ -7,6 +7,6 @@ namespace GoogleBooks.Client.Interfaces
     {
         Task<BookDetailsFull> GetBookDetailsByIdAsync(string bookId);
 
-        Task<Books> GetBooksByKeywordAsync(string searchedKeywords);
+        Task<Books> GetBooksByKeywordAsync(string keywords, int maxResults);
     }
 }

@@ -14,6 +14,7 @@ namespace GoogleBooks.Client.Integration.Tests
         private const string _baseUrlSectionName = "Urls:Base";
         private const string _getDefaultBooksUrl = "Urls:GetDefaultBooks";
         private const string _getBookDetailsUrl = "Urls:GetBookDetails";
+        private const string _maxResultsParameter = "Urls:MaxResultsParameter";
 
         private IConfiguration _configuration;
 
@@ -42,7 +43,8 @@ namespace GoogleBooks.Client.Integration.Tests
             var googleBooksUrls = new GoogleBooksUrlOptions
             {
                 GetBookDetails = _configuration.GetSection(_getBookDetailsUrl).Value.ToString(),
-                GetDefaultBooks = _configuration.GetSection(_getDefaultBooksUrl).Value.ToString()
+                GetDefaultBooks = _configuration.GetSection(_getDefaultBooksUrl).Value.ToString(),
+                MaxResults = _configuration.GetSection(_maxResultsParameter).Value.ToString()
             };
             IOptions<GoogleBooksUrlOptions> options = Options.Create(googleBooksUrls);
 

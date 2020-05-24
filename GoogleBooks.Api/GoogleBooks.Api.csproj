@@ -5,14 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="NewFolder\**" />
-    <Content Remove="NewFolder\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="NewFolder\**" />
+    <ProjectReference Include="..\GoogleBooks.Client\GoogleBooks.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GoogleBooks.Client\GoogleBooks.Client.csproj" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 
