@@ -20,7 +20,7 @@
     "GoogleBooks.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Book/GetAllBooksDefault",
+      "launchUrl": "Books/GetBooksByKeyword?keywords=tennis&maxResults=40",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
