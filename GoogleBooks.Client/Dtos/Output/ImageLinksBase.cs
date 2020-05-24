@@ -1,4 +1,4 @@
-﻿namespace GoogleBooks.Client.Dtos
+﻿namespace GoogleBooks.Client.Dtos.Output
 {
     public abstract class ImageLinksBase
     {

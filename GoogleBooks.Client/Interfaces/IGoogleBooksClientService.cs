@@ -1,4 +1,4 @@
-﻿using GoogleBooks.Client.Dtos;
+﻿using GoogleBooks.Client.Dtos.Output;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Client.Interfaces

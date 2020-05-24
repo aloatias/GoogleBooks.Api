@@ -1,4 +1,4 @@
-﻿using GoogleBooks.Client.Dtos;
+﻿using GoogleBooks.Client.Dtos.Output;
 using GoogleBooks.Client.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -29,6 +29,7 @@ namespace GoogleBooks.Client.Services
         {
             _urlFactory.SetDefaultsBooksUrl(keywords);
             _urlFactory.SetMaxResults(maxResults);
+
             var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
 
             return JsonConvert.DeserializeObject<Books>(responseString);
