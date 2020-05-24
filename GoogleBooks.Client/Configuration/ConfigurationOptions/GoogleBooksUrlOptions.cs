@@ -6,6 +6,6 @@
 
         public string GetDefaultBooks { get; set; }
 
-        public string MaxResults { get; set; }
+        public string MaxResultsParameter { get; set; }
     }
 }

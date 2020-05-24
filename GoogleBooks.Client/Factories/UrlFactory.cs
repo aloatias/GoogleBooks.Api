@@ -27,7 +27,7 @@ namespace GoogleBooks.Client.Factories
 
         public void SetMaxResults(int maxResults)
         {
-            Url +=  $"{ _options.MaxResults }{ maxResults }";
+            Url +=  $"{ _options.MaxResultsParameter }{ maxResults }";
         }
     }
 }
