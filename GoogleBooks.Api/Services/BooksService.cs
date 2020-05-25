@@ -36,23 +36,23 @@ namespace GoogleBooks.Api.Services
             return new BookDetailsFullResult(bookDetails, StatusEnum.Ok);
         }
 
-        public async Task<BooksCatalogResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch)
+        public async Task<BooksCatalogResult> GetBooksCatalogAsync(BooksCatalogSearch booksCatalogSearch)
         {
             // TODO: Validate keywords before calling google client
 
             var result = await _googleBooksClientService.GetBooksCatalogAsync(
-                catalogBooksSearch.Keywords,
-                catalogBooksSearch.PageSize,
-                catalogBooksSearch.PageNumber
+                booksCatalogSearch.Keywords,
+                booksCatalogSearch.PageSize,
+                booksCatalogSearch.PageNumber
             );
 
             // Map result to BooksCatalog
 
             var booksCatalogSearchResult = new BooksCatalogSearchResult
             {
-                Keywords = catalogBooksSearch.Keywords,
-                PageNumber = catalogBooksSearch.PageNumber,
-                PageSize = catalogBooksSearch.PageSize,
+                Keywords = booksCatalogSearch.Keywords,
+                PageNumber = booksCatalogSearch.PageNumber,
+                PageSize = booksCatalogSearch.PageSize,
                 TotalItems = result.TotalItems
             };
 
