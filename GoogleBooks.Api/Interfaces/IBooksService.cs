@@ -8,6 +8,6 @@ namespace GoogleBooks.Api.Interfaces
     {
         Task<BookDetailsFullResult> GetBookDetailsByIdAsync(string bookId);
 
-        Task<BooksByKeywordsResult> GetBooksByKeywordAsync(BooksCatalogSearchResult catalogBooksSearch);
+        Task<BooksCatalogResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch);
     }
 }

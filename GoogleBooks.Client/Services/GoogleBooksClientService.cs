@@ -25,7 +25,7 @@ namespace GoogleBooks.Client.Services
             return JsonConvert.DeserializeObject<GoogleBookDetailsFull>(responseString);
         }
 
-        public async Task<GoogleBooksCatalog> GetBooksByKeywordAsync(string keywords, int maxResults)
+        public async Task<GoogleBooksCatalog> GetBooksCatalogAsync(string keywords, int maxResults, int pageNumber)
         {
             _urlFactory.SetBookCatalogSearchUrl(keywords);
             _urlFactory.SetMaxResultsParameter(maxResults);

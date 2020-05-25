@@ -36,15 +36,19 @@ namespace GoogleBooks.Api.Services
             return new BookDetailsFullResult(bookDetails, StatusEnum.Ok);
         }
 
-        public async Task<BooksByKeywordsResult> GetBooksByKeywordAsync(BooksCatalogSearchResult catalogBooksSearch)
+        public async Task<BooksCatalogResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch)
         {
             // TODO: Validate keywords before calling google client
 
-            var result = await _googleBooksClientService.GetBooksByKeywordAsync(catalogBooksSearch.Keywords, catalogBooksSearch.PageSize);
+            var result = await _googleBooksClientService.GetBooksCatalogAsync(
+                catalogBooksSearch.Keywords,
+                catalogBooksSearch.PageSize,
+                catalogBooksSearch.PageNumber
+            );
 
             // Map result to BooksCatalog
 
-            var booksCatalogResult = new BooksCatalogSearchResult
+            var booksCatalogSearchResult = new BooksCatalogSearchResult
             {
                 Keywords = catalogBooksSearch.Keywords,
                 PageNumber = catalogBooksSearch.PageNumber,
@@ -52,7 +56,7 @@ namespace GoogleBooks.Api.Services
                 TotalItems = result.TotalItems
             };
 
-            return new BooksByKeywordsResult(new BooksCatalog(), booksCatalogResult, StatusEnum.Ok);
+            return new BooksCatalogResult(new BooksCatalog(), booksCatalogSearchResult, StatusEnum.Ok);
         }
     }
 }

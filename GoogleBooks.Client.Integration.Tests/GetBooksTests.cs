@@ -19,9 +19,10 @@ namespace GoogleBooks.Client.Integration.Tests
             // Prepare
             string keyword = "tennis";
             int expectedItemsNumber = 10;
+            int pageNumber = 0;
 
             // Act
-            var actualResult = await _googleBooksClientService.GetBooksByKeywordAsync(keyword, expectedItemsNumber);
+            var actualResult = await _googleBooksClientService.GetBooksCatalogAsync(keyword, expectedItemsNumber, pageNumber);
 
             // Test
             Assert.NotNull(actualResult);
@@ -35,9 +36,11 @@ namespace GoogleBooks.Client.Integration.Tests
             // Prepare
             string keyword = "tennis";
             int expectedItemsNumber = 40;
+            int pageNumber = 0;
+
 
             // Act
-            var actualGetBooksResult = await _googleBooksClientService.GetBooksByKeywordAsync(keyword, expectedItemsNumber);
+            var actualGetBooksResult = await _googleBooksClientService.GetBooksCatalogAsync(keyword, expectedItemsNumber, pageNumber);
             var actualGetBookDetailsResult = await _googleBooksClientService.GetBookDetailsByIdAsync(actualGetBooksResult.Items[0].Id);
 
             // Test
