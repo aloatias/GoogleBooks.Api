@@ -20,7 +20,7 @@ namespace GoogleBooks.Client.Factories
             Url = $"{ _options.GetBookDetails }{ bookId }";
         }
 
-        public void SetBookCatalogSearchUrl(string keywords)
+        public void SetBooksCatalogUrl(string keywords)
         {
             Url = $"{ _options.GetDefaultBooks }{ keywords }";
         }
@@ -28,6 +28,11 @@ namespace GoogleBooks.Client.Factories
         public void SetMaxResultsParameter(int maxResults)
         {
             Url +=  $"{ _options.MaxResultsParameter }{ maxResults }";
+        }
+
+        public void SetStartIndexParameter(int startIndex)
+        {
+            Url += $"{ _options.StartIndexParameter }{ startIndex }";
         }
     }
 }

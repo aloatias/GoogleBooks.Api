@@ -2,6 +2,8 @@
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Api.Controllers
@@ -21,16 +23,32 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpGet]
         [Route("GetBookDetailsById")]
-        public async Task<IActionResult> GetBookDetailsByIdAsync(string bookId)
+        public async Task<IActionResult> GetBookDetailsAsync(string bookId)
         {
-            return Ok(await _booksService.GetBookDetailsByIdAsync(bookId));
+            try
+            {
+                return Ok(await _booksService.GetBookDetailsAsync(bookId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
+                throw;
+            }
         }
 
         [HttpGet]
         [Route("GetBooksCatalog")]
         public async Task<IActionResult> GetBooksCatalogAsync([FromBody]BooksCatalogSearch catalogBooksSearch)
         {
-            return Ok(await _booksService.GetBooksCatalogAsync(catalogBooksSearch));
+            try
+            {
+                return Ok(await _booksService.GetBooksCatalogAsync(catalogBooksSearch));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogAsync) }");
+                throw;
+            }
         }
     }
 }

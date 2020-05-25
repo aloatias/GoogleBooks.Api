@@ -6,7 +6,7 @@ namespace GoogleBooks.Api.Interfaces
 {
     public interface IBooksService
     {
-        Task<BookDetailsFullResult> GetBookDetailsByIdAsync(string bookId);
+        Task<BookDetailsFullResult> GetBookDetailsAsync(string bookId);
 
         Task<BooksCatalogResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch);
     }

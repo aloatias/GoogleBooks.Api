@@ -7,5 +7,7 @@
         public string GetDefaultBooks { get; set; }
 
         public string MaxResultsParameter { get; set; }
+
+        public string StartIndexParameter { get; set; }
     }
 }
