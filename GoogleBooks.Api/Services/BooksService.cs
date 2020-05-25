@@ -30,6 +30,7 @@ namespace GoogleBooks.Api.Services
                 MediumImage = result.VolumeInfo.ImageLinks.Medium,
                 LargeImage = result.VolumeInfo.ImageLinks.Large,
                 ExtraLargeImage = result.VolumeInfo.ImageLinks.ExtraLarge,
+                // TODO: Match missing fields!!!
             };
 
             return new BookDetailsFullResult(bookDetails, StatusEnum.Ok);
