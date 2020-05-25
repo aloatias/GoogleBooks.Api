@@ -8,7 +8,7 @@
 
         void SetBooksCatalogUrl(string keywords);
 
-        void SetMaxResultsParameter(int maxResults);
+        void SetMaxResultsParameter(int pageSize);
 
         void SetStartIndexParameter(int startIndex);
     }

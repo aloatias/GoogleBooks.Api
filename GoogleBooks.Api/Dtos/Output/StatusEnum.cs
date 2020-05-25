@@ -4,7 +4,6 @@
     {
         Ok,
         InvalidParamater,
-        Duplicated,
         NotFound,
         InternalError
     }

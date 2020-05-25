@@ -23,7 +23,7 @@ namespace GoogleBooks.Api.Services
         {
             try
             {
-                var result = await _googleBooksClientService.GetBookDetailsByIdAsync(bookId);
+                var result = await _googleBooksClientService.GetBookDetailsAsync(bookId);
 
                 var bookDetails = new BookDetailsFull
                 {

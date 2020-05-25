@@ -25,9 +25,9 @@ namespace GoogleBooks.Client.Factories
             Url = $"{ _options.GetDefaultBooks }{ keywords }";
         }
 
-        public void SetMaxResultsParameter(int maxResults)
+        public void SetMaxResultsParameter(int pageSize)
         {
-            Url +=  $"{ _options.MaxResultsParameter }{ maxResults }";
+            Url +=  $"{ _options.MaxResultsParameter }{ pageSize }";
         }
 
         public void SetStartIndexParameter(int startIndex)
