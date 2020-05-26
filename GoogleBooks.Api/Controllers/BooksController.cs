@@ -4,7 +4,6 @@ using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Api.Controllers

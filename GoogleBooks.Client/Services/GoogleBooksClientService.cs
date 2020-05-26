@@ -19,21 +19,35 @@ namespace GoogleBooks.Client.Services
 
         public async Task<GoogleBookDetailsFull> GetBookDetailsAsync(string bookId)
         {
-            _urlFactory.SetBookDetailsUrl(bookId);
-            var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
+            try
+            {
+                _urlFactory.SetBookDetailsUrl(bookId);
+                var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
 
-            return JsonConvert.DeserializeObject<GoogleBookDetailsFull>(responseString);
+                return JsonConvert.DeserializeObject<GoogleBookDetailsFull>(responseString);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<GoogleBooksCatalog> GetBooksCatalogAsync(string keywords, int pageSize, int pageNumber)
         {
-            _urlFactory.SetBooksCatalogUrl(keywords);
-            _urlFactory.SetMaxResultsParameter(pageSize);
-            _urlFactory.SetStartIndexParameter(pageSize * pageNumber);
+            try
+            {
+                _urlFactory.SetBooksCatalogUrl(keywords);
+                _urlFactory.SetMaxResultsParameter(pageSize);
+                _urlFactory.SetStartIndexParameter(pageSize * pageNumber);
 
-            var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
+                var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
 
-            return JsonConvert.DeserializeObject<GoogleBooksCatalog>(responseString);
+                return JsonConvert.DeserializeObject<GoogleBooksCatalog>(responseString);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
