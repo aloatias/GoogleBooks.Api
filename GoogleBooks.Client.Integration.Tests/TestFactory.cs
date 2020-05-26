@@ -12,7 +12,7 @@ namespace GoogleBooks.Client.Integration.Tests
     public class TestFactory
     {
         private const string _baseUrlSectionName = "Urls:Base";
-        private const string _getDefaultBooksUrl = "Urls:GetDefaultBooks";
+        private const string _getDefaultBooksUrl = "Urls:GetBooksCatalog";
         private const string _getBookDetailsUrl = "Urls:GetBookDetails";
         private const string _maxResultsParameter = "Urls:MaxResultsParameter";
         private const string _startIndexParameter = "Urls:StartIndexParameter";
@@ -44,7 +44,7 @@ namespace GoogleBooks.Client.Integration.Tests
             var googleBooksUrls = new GoogleBooksUrlOptions
             {
                 GetBookDetails = _configuration.GetSection(_getBookDetailsUrl).Value.ToString(),
-                GetDefaultBooks = _configuration.GetSection(_getDefaultBooksUrl).Value.ToString(),
+                GetBooksCatalog = _configuration.GetSection(_getDefaultBooksUrl).Value.ToString(),
                 MaxResultsParameter = _configuration.GetSection(_maxResultsParameter).Value.ToString(),
                 StartIndexParameter = _configuration.GetSection(_startIndexParameter).Value.ToString()
             };

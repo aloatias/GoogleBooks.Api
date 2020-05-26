@@ -4,7 +4,7 @@
     {
         public string GetBookDetails { get; set; }
 
-        public string GetDefaultBooks { get; set; }
+        public string GetBooksCatalog { get; set; }
 
         public string MaxResultsParameter { get; set; }
 

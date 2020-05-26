@@ -7,13 +7,13 @@ namespace GoogleBooks.Client.Factories
     public class UrlFactory : IUrlFactory
     {
         private readonly GoogleBooksUrlOptions _options;
+        
+        public string Url { get; private set; }
 
         public UrlFactory(IOptions<GoogleBooksUrlOptions> configuration)
         {
             _options = configuration.Value;
         }
-
-        public string Url { get; private set; }
 
         public void SetBookDetailsUrl(string bookId)
         {
@@ -22,7 +22,7 @@ namespace GoogleBooks.Client.Factories
 
         public void SetBooksCatalogUrl(string keywords)
         {
-            Url = $"{ _options.GetDefaultBooks }{ keywords }";
+            Url = $"{ _options.GetBooksCatalog }{ keywords }";
         }
 
         public void SetMaxResultsParameter(int pageSize)
