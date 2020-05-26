@@ -14,7 +14,7 @@ namespace GoogleBooks.Client.Integration.Tests
         }
 
         [Fact]
-        public async void Should_GetBooksByKeyword()
+        public async void Should_GetBooksCatalog()
         {
             // Prepare
             string keyword = "tennis";
