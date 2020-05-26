@@ -1,4 +1,5 @@
 ﻿using GoogleBooks.Api.Dtos;
+using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,17 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                return Ok(await _booksService.GetBookDetailsAsync(bookId));
+                var getBookDetailsResult = await _booksService.GetBookDetailsAsync(bookId);
+
+                switch (getBookDetailsResult.Status)
+                {
+                    case StatusEnum.Ok:
+                        return Ok(getBookDetailsResult.BookDetails);
+                    case StatusEnum.NotFound:
+                        return StatusCode(204, getBookDetailsResult.Error.ErrorMessage);
+                    default:
+                        return StatusCode(500);
+                }
             }
             catch (Exception ex)
             {
@@ -42,7 +53,15 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                return Ok(await _booksService.GetBooksCatalogAsync(catalogBooksSearch));
+                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(catalogBooksSearch);
+
+                switch (getBooksCatalogResult.Status)
+                {
+                    case StatusEnum.Ok:
+                        return Ok(getBooksCatalogResult.BooksCatalog);
+                    default:
+                        return StatusCode(500);
+                }
             }
             catch (Exception ex)
             {

@@ -25,7 +25,6 @@ namespace GoogleBooks.Api.Services
             try
             {
                 var result = await _googleBooksClientService.GetBookDetailsAsync(bookId);
-
                 if (result == null)
                 {
                     return new BookDetailsFullResult(new NotFoundException($"The bookId: \"{ bookId }\" was not found"), StatusEnum.NotFound);
