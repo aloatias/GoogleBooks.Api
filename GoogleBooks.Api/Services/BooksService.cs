@@ -1,5 +1,6 @@
 ﻿using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
+using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Interfaces;
 using GoogleBooks.Client.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,11 @@ namespace GoogleBooks.Api.Services
             {
                 var result = await _googleBooksClientService.GetBookDetailsAsync(bookId);
 
+                if (result == null)
+                {
+                    return new BookDetailsFullResult(new NotFoundException($"The bookId: \"{ bookId }\" was not found"), StatusEnum.NotFound);
+                }
+
                 var bookDetails = new BookDetailsFull
                 {
                     Id = result.Id,
@@ -41,7 +47,7 @@ namespace GoogleBooks.Api.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                throw;
+                return new BookDetailsFullResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
             }
         }
 
@@ -72,7 +78,7 @@ namespace GoogleBooks.Api.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBooksCatalogAsync) }");
-                throw;
+                return new BooksCatalogResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
             }
         }
     }
