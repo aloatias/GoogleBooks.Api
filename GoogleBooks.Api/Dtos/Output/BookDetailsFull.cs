@@ -57,5 +57,17 @@
         public string PdfActsTokenLink { get; set; }
 
         public string WebReaderLink { get; set; }
+        
+        public string SmallThumbnail { get; set; }
+
+        public string Thumbnail { get; set; }
+        
+        public bool Embeddable { get; set; }
+
+        public bool PublicDomain { get; set; }
+        
+        public string AccessViewStatus { get; set; }
+
+        public string QuoteSharingAllowed { get; set; }
     }
 }

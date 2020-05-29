@@ -46,7 +46,7 @@ namespace GoogleBooks.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetBooksCatalog")]
         public async Task<IActionResult> GetBooksCatalogAsync([FromBody]BooksCatalogSearch catalogBooksSearch)
         {

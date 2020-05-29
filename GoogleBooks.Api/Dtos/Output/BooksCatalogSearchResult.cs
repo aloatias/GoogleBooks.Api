@@ -1,7 +1,11 @@
-﻿namespace GoogleBooks.Api.Dtos
+﻿using GoogleBooks.Api.Dtos.Output;
+
+namespace GoogleBooks.Api.Dtos
 {
-    public class BooksCatalogSearchResult : PagingInfo
+    public class BooksCatalogSearchResult
     {
-        public int TotalItems { get; set; }
+        public PagingInfoResult PagingInfoResult { get; set; }
+
+        public BooksCatalog BooksCatalog { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace GoogleBooks.Api.Dtos
 {
-    public class PagingInfo
+    public class PaginInfoBase
     {
         public string Keywords { get; set; }
 

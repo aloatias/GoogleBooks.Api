@@ -24,21 +24,33 @@ namespace GoogleBooks.Api.Services
         {
             try
             {
-                var result = await _googleBooksClientService.GetBookDetailsAsync(bookId);
-                if (result == null)
+                var getBookDetailsResult = await _googleBooksClientService.GetBookDetailsAsync(bookId);
+                if (getBookDetailsResult == null)
                 {
                     return new BookDetailsFullResult(new NotFoundException($"The bookId: \"{ bookId }\" was not found"), StatusEnum.NotFound);
                 }
 
                 var bookDetails = new BookDetailsFull
                 {
-                    Id = result.Id,
-                    Etag = result.Etag,
-                    SmallImage = result.VolumeInfo.ImageLinks.Small,
-                    MediumImage = result.VolumeInfo.ImageLinks.Medium,
-                    LargeImage = result.VolumeInfo.ImageLinks.Large,
-                    ExtraLargeImage = result.VolumeInfo.ImageLinks.ExtraLarge,
-                    // TODO: Match missing fields!!!
+                    Id = getBookDetailsResult.Id,
+                    Etag = getBookDetailsResult.Etag,
+                    SmallImage = getBookDetailsResult.VolumeInfo.ImageLinks.Small,
+                    MediumImage = getBookDetailsResult.VolumeInfo.ImageLinks.Medium,
+                    LargeImage = getBookDetailsResult.VolumeInfo.ImageLinks.Large,
+                    ExtraLargeImage = getBookDetailsResult.VolumeInfo.ImageLinks.ExtraLarge,
+                    SmallThumbnail = getBookDetailsResult.VolumeInfo.ImageLinks.SmallThumbnail,
+                    Thumbnail = getBookDetailsResult.VolumeInfo.ImageLinks.Thumbnail,
+                    Country = getBookDetailsResult.SaleInfo.Country,
+                    Saleability = getBookDetailsResult.SaleInfo.Saleability,
+                    IsEbook = getBookDetailsResult.SaleInfo.IsEbook,
+                    Viewability = getBookDetailsResult.AccessInfo.Viewability,
+                    Embeddable = getBookDetailsResult.AccessInfo.Embeddable,
+                    PublicDomain = getBookDetailsResult.AccessInfo.PublicDomain,
+                    IsPdfAvailable = getBookDetailsResult.AccessInfo.Pdf.IsAvailable,
+                    PdfActsTokenLink = getBookDetailsResult.AccessInfo.Pdf.ActsTokenLink,
+                    WebReaderLink = getBookDetailsResult.AccessInfo.WebReaderLink,
+                    AccessViewStatus = getBookDetailsResult.AccessInfo.AccessViewStatus,
+                    QuoteSharingAllowed = getBookDetailsResult.AccessInfo.QuoteSharingAllowed
                 };
 
                 return new BookDetailsFullResult(bookDetails, StatusEnum.Ok);
@@ -56,7 +68,7 @@ namespace GoogleBooks.Api.Services
             {
                 // TODO: Validate keywords before calling google client
 
-                var result = await _googleBooksClientService.GetBooksCatalogAsync(
+                var getBooksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync(
                     booksCatalogSearch.Keywords,
                     booksCatalogSearch.PageSize,
                     booksCatalogSearch.PageNumber
@@ -66,13 +78,18 @@ namespace GoogleBooks.Api.Services
 
                 var booksCatalogSearchResult = new BooksCatalogSearchResult
                 {
-                    Keywords = booksCatalogSearch.Keywords,
-                    PageNumber = booksCatalogSearch.PageNumber,
-                    PageSize = booksCatalogSearch.PageSize,
-                    TotalItems = result.TotalItems
+                    PagingInfoResult = new PagingInfoResult
+                    {
+                        Keywords = booksCatalogSearch.Keywords,
+                        PageNumber = booksCatalogSearch.PageNumber,
+                        PageSize = booksCatalogSearch.PageSize,
+                        TotalItems = getBooksCatalogResult.TotalItems
+                    },
+
+                    // BooksCatalog = // Map with result
                 };
 
-                return new BooksCatalogResult(new BooksCatalog(), booksCatalogSearchResult, StatusEnum.Ok);
+                return new BooksCatalogResult(booksCatalogSearchResult, StatusEnum.Ok);
             }
             catch (Exception ex)
             {

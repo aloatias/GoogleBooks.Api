@@ -4,14 +4,14 @@ namespace GoogleBooks.Api.Dtos.Output
 {
     public class BooksCatalogResult : ResultBase
     {
-        public PagingInfo PagingInfo { get; private set; }
+        public PagingInfoResult PagingInfo { get; private set; }
 
         public BooksCatalog BooksCatalog { get; private set; }
 
-        public BooksCatalogResult(BooksCatalog booksCatalog, PagingInfo pagingInfo, StatusEnum status) : base(status)
+        public BooksCatalogResult(BooksCatalogSearchResult booksCatalogSearchResult, StatusEnum status) : base(status)
         {
-            BooksCatalog = booksCatalog;
-            PagingInfo = pagingInfo;
+            BooksCatalog = booksCatalogSearchResult.BooksCatalog;
+            PagingInfo = booksCatalogSearchResult.PagingInfoResult;
         }
 
         public BooksCatalogResult(ErrorBase error, StatusEnum status) : base(error, status)
