@@ -1,6 +1,6 @@
 ﻿namespace GoogleBooks.Api.Dtos.Output
 {
-    public class BookDetailsFull
+    public class IndividualBookDetails
     {
         public string Id { get; set; }
 
@@ -44,7 +44,7 @@
 
         public string Saleability { get; set; }
 
-        public bool IsEbook { get; set; }
+        public bool? IsEbook { get; set; }
 
         public decimal Amount { get; set; }
 
@@ -52,7 +52,7 @@
 
         public string Viewability { get; set; }
 
-        public bool IsPdfAvailable { get; set; }
+        public bool? IsPdfAvailable { get; set; }
 
         public string PdfActsTokenLink { get; set; }
 
@@ -62,9 +62,9 @@
 
         public string Thumbnail { get; set; }
         
-        public bool Embeddable { get; set; }
+        public bool? Embeddable { get; set; }
 
-        public bool PublicDomain { get; set; }
+        public bool? PublicDomain { get; set; }
         
         public string AccessViewStatus { get; set; }
 

@@ -4,9 +4,9 @@ namespace GoogleBooks.Api.Dtos.Output
 {
     public class BookDetailsFullResult : ResultBase
     {
-        public BookDetailsFull BookDetails { get; private set; }
+        public IndividualBookDetails BookDetails { get; private set; }
 
-        public BookDetailsFullResult(BookDetailsFull bookDetailsFull, StatusEnum status) : base(status)
+        public BookDetailsFullResult(IndividualBookDetails bookDetailsFull, StatusEnum status) : base(status)
         {
             BookDetails = bookDetailsFull;
         }

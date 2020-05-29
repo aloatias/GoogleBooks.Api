@@ -46,6 +46,29 @@ namespace GoogleBooks.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetBooksCatalogOnApiLaunch")]
+        public async Task<IActionResult> GetBooksCatalogOnApiLaunchAsync(string keywords, int pageNumber, int pageSize)
+        {
+            try
+            {
+                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch(keywords, pageNumber, pageSize));
+
+                switch (getBooksCatalogResult.Status)
+                {
+                    case StatusEnum.Ok:
+                        return Ok(getBooksCatalogResult);
+                    default:
+                        return StatusCode(500);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogOnApiLaunchAsync) }");
+                throw;
+            }
+        }
+
         [HttpPost]
         [Route("GetBooksCatalog")]
         public async Task<IActionResult> GetBooksCatalogAsync([FromBody]BooksCatalogSearch catalogBooksSearch)

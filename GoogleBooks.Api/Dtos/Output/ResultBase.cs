@@ -2,7 +2,7 @@
 
 namespace GoogleBooks.Api.Dtos.Output
 {
-    public class ResultBase
+    public abstract class ResultBase
     {
         public StatusEnum Status { get; private set; }
 
