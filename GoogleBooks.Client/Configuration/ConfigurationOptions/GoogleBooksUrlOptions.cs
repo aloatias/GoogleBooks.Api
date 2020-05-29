@@ -2,6 +2,12 @@
 {
     public class GoogleBooksUrlOptions
     {
-        public string SearchDefaultBooks { get; set; }
+        public string GetBookDetails { get; set; }
+
+        public string GetBooksCatalog { get; set; }
+
+        public string MaxResultsParameter { get; set; }
+
+        public string StartIndexParameter { get; set; }
     }
 }

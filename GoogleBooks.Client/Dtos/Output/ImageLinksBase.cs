@@ -1,6 +1,6 @@
-﻿namespace GoogleBooks.Client.Dtos
+﻿namespace GoogleBooks.Client.Dtos.Output
 {
-    public class ImageLinks
+    public abstract class ImageLinksBase
     {
         public string SmallThumbnail { get; set; }
 

@@ -1,10 +1,12 @@
-﻿using GoogleBooks.Client.Dtos;
+﻿using GoogleBooks.Client.Dtos.Output;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Client.Interfaces
 {
     public interface IGoogleBooksClientService
     {
-        Task<Books> GetBooksByKeyword(string searchedKeywords);
+        Task<GoogleBookDetailsFull> GetBookDetailsAsync(string bookId);
+
+        Task<GoogleBooksCatalog> GetBooksCatalogAsync(string keywords, int pageSize, int pageNumber);
     }
 }

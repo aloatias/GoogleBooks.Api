@@ -1,4 +1,4 @@
-﻿using GoogleBooks.Client.Dtos;
+﻿using GoogleBooks.Client.Dtos.Output;
 using GoogleBooks.Client.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -17,12 +17,37 @@ namespace GoogleBooks.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Books> GetBooksByKeyword(string keywords)
+        public async Task<GoogleBookDetailsFull> GetBookDetailsAsync(string bookId)
         {
-            var url = _urlFactory.GetSearchDefaultsBooksUrl(keywords);
-            var responseString = await _httpClient.GetStringAsync(url);
+            try
+            {
+                _urlFactory.SetBookDetailsUrl(bookId);
+                var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
 
-            return JsonConvert.DeserializeObject<Books>(responseString);
+                return JsonConvert.DeserializeObject<GoogleBookDetailsFull>(responseString);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<GoogleBooksCatalog> GetBooksCatalogAsync(string keywords, int pageSize, int pageNumber)
+        {
+            try
+            {
+                _urlFactory.SetBooksCatalogUrl(keywords);
+                _urlFactory.SetMaxResultsParameter(pageSize);
+                _urlFactory.SetStartIndexParameter(pageSize * pageNumber);
+
+                var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
+
+                return JsonConvert.DeserializeObject<GoogleBooksCatalog>(responseString);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

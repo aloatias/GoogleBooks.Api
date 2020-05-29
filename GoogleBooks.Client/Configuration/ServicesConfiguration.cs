@@ -20,6 +20,10 @@ namespace GoogleBooks.Client.Configuration
             serviceCollection.AddHttpClient<IGoogleBooksClientService, GoogleBooksClientService>(
                 client => client.BaseAddress = new Uri(configuration.GetSection(_baseUrlSection).Value.ToString()));
 
+            //var retryPolicy = HttpPolicyExtensions
+            //    .HandleTransientHttpError()
+            //    .WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
+
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             return serviceProvider;
