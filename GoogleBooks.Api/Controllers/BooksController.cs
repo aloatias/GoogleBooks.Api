@@ -52,7 +52,7 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch(keywords, pageNumber, pageSize));
+                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
 
                 switch (getBooksCatalogResult.Status)
                 {
@@ -71,7 +71,7 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpPost]
         [Route("GetBooksCatalog")]
-        public async Task<IActionResult> GetBooksCatalogAsync([FromBody]BooksCatalogSearch catalogBooksSearch)
+        public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch)
         {
             try
             {
