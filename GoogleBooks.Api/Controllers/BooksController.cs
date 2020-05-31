@@ -32,7 +32,7 @@ namespace GoogleBooks.Api.Controllers
                 switch (getBookDetailsResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(getBookDetailsResult.BookDetails);
+                        return Ok(getBookDetailsResult.IndividualBookDetails);
                     case StatusEnum.NotFound:
                         return StatusCode(204, getBookDetailsResult.Error.ErrorMessage);
                     default:

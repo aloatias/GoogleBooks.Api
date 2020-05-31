@@ -21,45 +21,45 @@ namespace GoogleBooks.Api.Services
             _logger = logger;
         }
 
-        public async Task<BookDetailsFullResult> GetBookDetailsAsync(string bookId)
+        public async Task<IndividualBookDetailsResult> GetBookDetailsAsync(string bookId)
         {
             try
             {
-                var getBookDetailsResult = await _googleBooksClientService.GetBookDetailsAsync(bookId);
-                if (getBookDetailsResult == null)
+                var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(bookId);
+                if (individualBookDetails == null)
                 {
-                    return new BookDetailsFullResult(new NotFoundException($"The bookId: \"{ bookId }\" was not found"), StatusEnum.NotFound);
+                    return new IndividualBookDetailsResult(new NotFoundException($"The bookId: \"{ bookId }\" was not found"), StatusEnum.NotFound);
                 }
 
                 var bookDetails = new IndividualBookDetails
                 {
-                    Id = getBookDetailsResult.Id,
-                    Etag = getBookDetailsResult.Etag,
-                    SmallImage = getBookDetailsResult.VolumeInfo?.ImageLinks?.Small,
-                    MediumImage = getBookDetailsResult.VolumeInfo?.ImageLinks?.Medium,
-                    LargeImage = getBookDetailsResult.VolumeInfo?.ImageLinks?.Large,
-                    ExtraLargeImage = getBookDetailsResult.VolumeInfo?.ImageLinks?.ExtraLarge,
-                    SmallThumbnail = getBookDetailsResult.VolumeInfo?.ImageLinks?.SmallThumbnail,
-                    Thumbnail = getBookDetailsResult.VolumeInfo?.ImageLinks?.Thumbnail,
-                    Country = getBookDetailsResult.SaleInfo?.Country,
-                    Saleability = getBookDetailsResult.SaleInfo?.Saleability,
-                    IsEbook = getBookDetailsResult.SaleInfo?.IsEbook,
-                    Viewability = getBookDetailsResult.AccessInfo?.Viewability,
-                    Embeddable = getBookDetailsResult.AccessInfo?.Embeddable,
-                    PublicDomain = getBookDetailsResult.AccessInfo?.PublicDomain,
-                    IsPdfAvailable = getBookDetailsResult.AccessInfo?.Pdf?.IsAvailable,
-                    PdfActsTokenLink = getBookDetailsResult.AccessInfo?.Pdf?.ActsTokenLink,
-                    WebReaderLink = getBookDetailsResult.AccessInfo?.WebReaderLink,
-                    AccessViewStatus = getBookDetailsResult.AccessInfo?.AccessViewStatus,
-                    QuoteSharingAllowed = getBookDetailsResult.AccessInfo?.QuoteSharingAllowed
+                    Id = individualBookDetails.Id,
+                    Etag = individualBookDetails.Etag,
+                    SmallImage = individualBookDetails.VolumeInfo?.ImageLinks?.Small,
+                    MediumImage = individualBookDetails.VolumeInfo?.ImageLinks?.Medium,
+                    LargeImage = individualBookDetails.VolumeInfo?.ImageLinks?.Large,
+                    ExtraLargeImage = individualBookDetails.VolumeInfo?.ImageLinks?.ExtraLarge,
+                    SmallThumbnail = individualBookDetails.VolumeInfo?.ImageLinks?.SmallThumbnail,
+                    Thumbnail = individualBookDetails.VolumeInfo?.ImageLinks?.Thumbnail,
+                    Country = individualBookDetails.SaleInfo?.Country,
+                    Saleability = individualBookDetails.SaleInfo?.Saleability,
+                    IsEbook = individualBookDetails.SaleInfo?.IsEbook,
+                    Viewability = individualBookDetails.AccessInfo?.Viewability,
+                    Embeddable = individualBookDetails.AccessInfo?.Embeddable,
+                    PublicDomain = individualBookDetails.AccessInfo?.PublicDomain,
+                    IsPdfAvailable = individualBookDetails.AccessInfo?.Pdf?.IsAvailable,
+                    PdfActsTokenLink = individualBookDetails.AccessInfo?.Pdf?.ActsTokenLink,
+                    WebReaderLink = individualBookDetails.AccessInfo?.WebReaderLink,
+                    AccessViewStatus = individualBookDetails.AccessInfo?.AccessViewStatus,
+                    QuoteSharingAllowed = individualBookDetails.AccessInfo?.QuoteSharingAllowed
                 };
 
-                return new BookDetailsFullResult(bookDetails, StatusEnum.Ok);
+                return new IndividualBookDetailsResult(bookDetails, StatusEnum.Ok);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                return new BookDetailsFullResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
+                return new IndividualBookDetailsResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
             }
         }
 
@@ -72,16 +72,16 @@ namespace GoogleBooks.Api.Services
                     return new BooksCatalogResult(new InvalidKeywordException("You must at least enter a two character keyword"), StatusEnum.InvalidParamater);
                 }
 
-                var getBooksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync(
+                var booksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync(
                     booksCatalogSearch.Keywords,
                     booksCatalogSearch.PageSize,
                     booksCatalogSearch.PageNumber
                 );
 
-                var pagingInfoResult = new PagingInfoResult(booksCatalogSearch.Keywords, booksCatalogSearch.PageNumber, booksCatalogSearch.PageSize, getBooksCatalogResult.TotalItems);
+                var pagingInfoResult = new PagingInfoResult(booksCatalogSearch.Keywords, booksCatalogSearch.PageNumber, booksCatalogSearch.PageSize, booksCatalogResult.TotalItems);
 
                 var bookDetails = new List<BookDetailsForCatalog>();
-                foreach (var book in getBooksCatalogResult.Items)
+                foreach (var book in booksCatalogResult.Items)
                 {
                     bookDetails.Add
                     (
@@ -125,7 +125,7 @@ namespace GoogleBooks.Api.Services
                     );
                 }
 
-                var booksCatalog = new BooksCatalog(getBooksCatalogResult.Kind, bookDetails);
+                var booksCatalog = new BooksCatalog(booksCatalogResult.Kind, bookDetails);
                 var booksCatalogSearchResult = new BooksCatalogSearchResult(pagingInfoResult, booksCatalog);
 
                 return new BooksCatalogResult(booksCatalogSearchResult, StatusEnum.Ok);
