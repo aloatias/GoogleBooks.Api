@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleBooks.Api", "GoogleBooks.Api\GoogleBooks.Api.csproj", "{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Api", "GoogleBooks.Api\GoogleBooks.Api.csproj", "{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{771FFFBA-4837-4EC4-B503-223F6E42E993}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleBooks.Client", "GoogleBooks.Client\GoogleBooks.Client.csproj", "{2E7B8EFC-B3D3-4CB0-B8DF-CB18E0B74180}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Api.Integration.Tests", "GoogleBooks.Api.Integration.Tests\GoogleBooks.Api.Integration.Tests.csproj", "{F181021F-3B7B-48E2-87E8-AF711F2C4EAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Client.Integration.Tests", "GoogleBooks.Client.Integration.Tests\GoogleBooks.Client.Integration.Tests.csproj", "{F9E7806E-168F-4406-8C4F-F9F317E2B83A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +23,25 @@ Global
 		{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEC42CB2-DAB7-4B7C-86D1-1594EA366AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E7B8EFC-B3D3-4CB0-B8DF-CB18E0B74180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7B8EFC-B3D3-4CB0-B8DF-CB18E0B74180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E7B8EFC-B3D3-4CB0-B8DF-CB18E0B74180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E7B8EFC-B3D3-4CB0-B8DF-CB18E0B74180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F181021F-3B7B-48E2-87E8-AF711F2C4EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F181021F-3B7B-48E2-87E8-AF711F2C4EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F181021F-3B7B-48E2-87E8-AF711F2C4EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F181021F-3B7B-48E2-87E8-AF711F2C4EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F181021F-3B7B-48E2-87E8-AF711F2C4EAF} = {771FFFBA-4837-4EC4-B503-223F6E42E993}
+		{F9E7806E-168F-4406-8C4F-F9F317E2B83A} = {771FFFBA-4837-4EC4-B503-223F6E42E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {49DD649C-E0CE-4CF4-AF3C-784667714715}
