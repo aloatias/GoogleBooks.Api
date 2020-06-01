@@ -80,7 +80,7 @@ namespace GoogleBooks.Api.Controllers
                 switch (getBooksCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(getBooksCatalogResult.BooksCatalog);
+                        return Ok(getBooksCatalogResult);
                     default:
                         return StatusCode(500);
                 }
