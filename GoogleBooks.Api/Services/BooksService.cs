@@ -67,7 +67,8 @@ namespace GoogleBooks.Api.Services
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(booksCatalogSearch.Keywords))
+                if (string.IsNullOrWhiteSpace(booksCatalogSearch.Keywords)
+                    || booksCatalogSearch.Keywords.Length < 2)
                 {
                     return new BooksCatalogResult(new InvalidKeywordException("You must at least enter a two character keyword"), StatusEnum.InvalidParamater);
                 }

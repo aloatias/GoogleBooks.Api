@@ -58,6 +58,8 @@ namespace GoogleBooks.Api.Controllers
                 {
                     case StatusEnum.Ok:
                         return Ok(getBooksCatalogResult);
+                    case StatusEnum.NotFound:
+                        return NotFound(getBooksCatalogResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
@@ -81,6 +83,8 @@ namespace GoogleBooks.Api.Controllers
                 {
                     case StatusEnum.Ok:
                         return Ok(getBooksCatalogResult);
+                    case StatusEnum.InvalidParamater:
+                        return BadRequest(getBooksCatalogResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
