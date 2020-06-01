@@ -1,6 +1,7 @@
 ﻿using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Dtos.Output.Exceptions;
+using GoogleBooks.Api.Helpers;
 using GoogleBooks.Api.Interfaces;
 using GoogleBooks.Client.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,7 @@ namespace GoogleBooks.Api.Services
                 var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(bookId);
                 if (individualBookDetails == null)
                 {
-                    return new IndividualBookDetailsResult(new NotFoundException($"The bookId: \"{ bookId }\" was not found"), StatusEnum.NotFound);
+                    return new IndividualBookDetailsResult(new NotFoundException(ExceptionMessages.GetNotFoundMessage(bookId)), StatusEnum.NotFound);
                 }
 
                 var bookDetails = new IndividualBookDetails
@@ -67,9 +68,10 @@ namespace GoogleBooks.Api.Services
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(booksCatalogSearch.Keywords))
+                if (string.IsNullOrWhiteSpace(booksCatalogSearch.Keywords)
+                    || booksCatalogSearch.Keywords.Length < 2)
                 {
-                    return new BooksCatalogResult(new InvalidKeywordException("You must at least enter a two character keyword"), StatusEnum.InvalidParamater);
+                    return new BooksCatalogResult(new InvalidKeywordException(ExceptionMessages.InvalidKeyword), StatusEnum.InvalidParamater);
                 }
 
                 var booksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync(

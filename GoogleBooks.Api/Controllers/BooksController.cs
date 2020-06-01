@@ -52,12 +52,14 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch(keywords, pageNumber, pageSize));
+                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
 
                 switch (getBooksCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
                         return Ok(getBooksCatalogResult);
+                    case StatusEnum.NotFound:
+                        return NotFound(getBooksCatalogResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
@@ -71,7 +73,7 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpPost]
         [Route("GetBooksCatalog")]
-        public async Task<IActionResult> GetBooksCatalogAsync([FromBody]BooksCatalogSearch catalogBooksSearch)
+        public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch)
         {
             try
             {
@@ -80,7 +82,9 @@ namespace GoogleBooks.Api.Controllers
                 switch (getBooksCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(getBooksCatalogResult.BooksCatalog);
+                        return Ok(getBooksCatalogResult);
+                    case StatusEnum.InvalidParamater:
+                        return BadRequest(getBooksCatalogResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
