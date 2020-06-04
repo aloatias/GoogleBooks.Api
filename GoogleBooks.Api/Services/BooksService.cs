@@ -7,6 +7,7 @@ using GoogleBooks.Client.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Api.Services
@@ -81,6 +82,18 @@ namespace GoogleBooks.Api.Services
                 );
 
                 var pagingInfoResult = new PagingInfoResult(booksCatalogSearch.Keywords, booksCatalogSearch.PageNumber, booksCatalogSearch.PageSize, booksCatalogResult.TotalItems);
+
+                if (booksCatalogResult.Items == null)
+                {
+                    return new BooksCatalogResult(
+                        new BooksCatalogSearchResult(
+                            pagingInfoResult,
+                            new BooksCatalog(
+                                booksCatalogResult.Kind,
+                                new List<BookDetailsForCatalog>())),
+                                StatusEnum.Ok
+                            );
+                }
 
                 var bookDetails = new List<BookDetailsForCatalog>();
                 foreach (var book in booksCatalogResult.Items)

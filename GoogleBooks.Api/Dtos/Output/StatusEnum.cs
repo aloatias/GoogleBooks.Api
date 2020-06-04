@@ -3,8 +3,11 @@
     public enum StatusEnum
     {
         Ok,
+
         InvalidParamater,
+        
         NotFound,
+        
         InternalError
     }
 }
