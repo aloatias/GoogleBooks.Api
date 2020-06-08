@@ -36,6 +36,8 @@ namespace GoogleBooks.Api.Services
                 var bookDetails = new IndividualBookDetails
                 {
                     Id = individualBookDetails.Id,
+                    Title = individualBookDetails.VolumeInfo.Title,
+                    Description = individualBookDetails.VolumeInfo.Description,
                     Etag = individualBookDetails.Etag,
                     SmallImage = individualBookDetails.VolumeInfo?.ImageLinks?.Small,
                     MediumImage = individualBookDetails.VolumeInfo?.ImageLinks?.Medium,
