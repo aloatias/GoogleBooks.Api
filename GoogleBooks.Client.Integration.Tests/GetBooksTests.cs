@@ -41,7 +41,7 @@ namespace GoogleBooks.Client.Integration.Tests
 
             // Act
             var actualGetBooksResult = await _googleBooksClientService.GetBooksCatalogAsync(keyword, expectedItemsNumber, pageNumber);
-            var actualGetBookDetailsResult = await _googleBooksClientService.GetBookDetailsAsync(actualGetBooksResult.Items[0].Id);
+            var actualGetBookDetailsResult = await _googleBooksClientService.GetBookDetailsByIdAsync(actualGetBooksResult.Items[0].Id);
 
             // Test
             Assert.NotNull(actualGetBookDetailsResult);

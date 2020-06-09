@@ -7,7 +7,6 @@ using GoogleBooks.Client.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Api.Services
@@ -23,11 +22,11 @@ namespace GoogleBooks.Api.Services
             _logger = logger;
         }
 
-        public async Task<IndividualBookDetailsResult> GetBookDetailsAsync(string bookId)
+        public async Task<IndividualBookDetailsResult> GetBookDetailsByIdAsync(string bookId)
         {
             try
             {
-                var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(bookId);
+                var individualBookDetails = await _googleBooksClientService.GetBookDetailsByIdAsync(bookId);
                 if (individualBookDetails == null)
                 {
                     return new IndividualBookDetailsResult(new NotFoundException(ExceptionMessages.GetNotFoundMessage(bookId)), StatusEnum.NotFound);
@@ -65,7 +64,7 @@ namespace GoogleBooks.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsAsync) }");
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsByIdAsync) }");
                 return new IndividualBookDetailsResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
             }
         }
