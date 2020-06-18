@@ -36,10 +36,8 @@ namespace GoogleBooks.Client.Services
         {
             try
             {
-                _urlFactory.SetBooksCatalogUrl(keywords);
-                _urlFactory.SetMaxResultsParameter(pageSize);
-                _urlFactory.SetStartIndexParameter(pageSize * pageNumber);
-
+                _urlFactory.SetBooksCatalogUrl(keywords, pageSize, pageSize * pageNumber);
+                
                 var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
 
                 return JsonConvert.DeserializeObject<GoogleBooksCatalog>(responseString);
