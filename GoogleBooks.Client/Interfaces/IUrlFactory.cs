@@ -3,7 +3,7 @@
     public interface IUrlFactory
     {
         /// <summary>
-        /// Url read only property that must be previously set using "SetBookDetailsUrl"/"SetBooksCatalogUrl" to launch a book details/books catalog request
+        /// Url read only property that must be previously set by using the "SetBooksCatalogUrl" method
         /// </summary>
         string Url { get; }
 
