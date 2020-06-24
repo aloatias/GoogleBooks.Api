@@ -39,5 +39,7 @@
         public string InfoLink { get; set; }
 
         public string CanonicalVolumeLink { get; set; }
+
+        public string[] Categories { get; set; }
     }
 }

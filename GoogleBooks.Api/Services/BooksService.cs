@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dimensions = GoogleBooks.Api.Dtos.Output.Dimensions;
 
 namespace GoogleBooks.Api.Services
 {
@@ -91,10 +92,10 @@ namespace GoogleBooks.Api.Services
         #region Private Methods
         private List<BookDetailsForCatalog> MapBookCatalogDataToDtoResult(GoogleBooksCatalog booksCatalogResult)
         {
-            var bookDetails = new List<BookDetailsForCatalog>();
+            var bookDetailsForCatalog = new List<BookDetailsForCatalog>();
             foreach (var book in booksCatalogResult.Items)
             {
-                bookDetails.Add
+                bookDetailsForCatalog.Add
                 (
                     new BookDetailsForCatalog
                     {
@@ -131,12 +132,13 @@ namespace GoogleBooks.Api.Services
                         PdfActsTokenLink = book.AccessInfo?.Pdf?.ActsTokenLink,
                         WebReaderLink = book.AccessInfo?.WebReaderLink,
                         AccessViewStatus = book.AccessInfo?.AccessViewStatus,
-                        QuoteSharingAllowed = book.AccessInfo?.QuoteSharingAllowed
+                        QuoteSharingAllowed = book.AccessInfo?.QuoteSharingAllowed,
+                        Categories = book.VolumeInfo?.Categories ?? null
                     }
                 );
             }
 
-            return bookDetails;
+            return bookDetailsForCatalog;
         }
 
         private IndividualBookDetails MapBookDataToDtoResult(GoogleBookDetailsFull individualBookDetails)
@@ -166,7 +168,18 @@ namespace GoogleBooks.Api.Services
                 PdfActsTokenLink = individualBookDetails.AccessInfo?.Pdf?.ActsTokenLink,
                 WebReaderLink = individualBookDetails.AccessInfo?.WebReaderLink,
                 AccessViewStatus = individualBookDetails.AccessInfo?.AccessViewStatus,
-                QuoteSharingAllowed = individualBookDetails.AccessInfo?.QuoteSharingAllowed
+                QuoteSharingAllowed = individualBookDetails.AccessInfo?.QuoteSharingAllowed,
+                Price = individualBookDetails.SaleInfo?.ListPrice?.Amount,
+                CurrencyCode = individualBookDetails.SaleInfo?.ListPrice?.CurrencyCode,
+                Dimensions = new Dimensions
+                {
+                    Height = individualBookDetails.VolumeInfo.Dimensions?.Height,
+                    Thickness = individualBookDetails.VolumeInfo.Dimensions?.Thickness,
+                    Width = individualBookDetails.VolumeInfo.Dimensions?.Width,
+                },
+                PageCount = individualBookDetails.VolumeInfo?.PageCount,
+                PrintedPageCount = individualBookDetails.VolumeInfo?.PrintedPageCount,
+                Categories = individualBookDetails.VolumeInfo?.Categories ?? null
             };
         }
 
