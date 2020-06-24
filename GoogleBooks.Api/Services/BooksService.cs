@@ -179,7 +179,8 @@ namespace GoogleBooks.Api.Services
                 },
                 PageCount = individualBookDetails.VolumeInfo?.PageCount,
                 PrintedPageCount = individualBookDetails.VolumeInfo?.PrintedPageCount,
-                Categories = individualBookDetails.VolumeInfo?.Categories ?? null
+                Categories = individualBookDetails.VolumeInfo?.Categories ?? null,
+                Language = individualBookDetails.VolumeInfo?.Language
             };
         }
 
