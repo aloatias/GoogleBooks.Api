@@ -23,25 +23,25 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpGet]
         [Route("GetBookDetailsById")]
-        public async Task<IActionResult> GetBookDetailsAsync(string bookId)
+        public async Task<IActionResult> GetBookDetailsByIdAsync(string bookId)
         {
             try
             {
-                var getBookDetailsResult = await _booksService.GetBookDetailsAsync(bookId);
+                var bookDetailsResult = await _booksService.GetBookDetailsByIdAsync(bookId);
 
-                switch (getBookDetailsResult.Status)
+                switch (bookDetailsResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(getBookDetailsResult.IndividualBookDetails);
+                        return Ok(bookDetailsResult.IndividualBookDetails);
                     case StatusEnum.NotFound:
-                        return StatusCode(204, getBookDetailsResult.Error.ErrorMessage);
+                        return StatusCode(204, bookDetailsResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsByIdAsync) }");
                 throw;
             }
         }
@@ -52,14 +52,14 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
+                var bookCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
 
-                switch (getBooksCatalogResult.Status)
+                switch (bookCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(getBooksCatalogResult);
+                        return Ok(bookCatalogResult);
                     case StatusEnum.NotFound:
-                        return NotFound(getBooksCatalogResult.Error.ErrorMessage);
+                        return NotFound(bookCatalogResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
