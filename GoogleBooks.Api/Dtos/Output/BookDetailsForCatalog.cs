@@ -69,5 +69,7 @@
         public string AccessViewStatus { get; set; }
 
         public string QuoteSharingAllowed { get; set; }
+
+        public string[] Categories { get; set; }
     }
 }
