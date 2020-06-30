@@ -70,9 +70,10 @@ namespace GoogleBooks.Api.Services
                             pagingInfoResult,
                             new BooksCatalog(
                                 booksCatalogResult.Kind,
-                                new List<BookDetailsForCatalog>())),
-                                StatusEnum.Ok
-                            );
+                                new List<BookDetailsForCatalog>())
+                            ),
+                        StatusEnum.Ok
+                    );
                 }
 
                 List<BookDetailsForCatalog> bookDetails = MapBookCatalogDataToDtoResult(booksCatalogResult);
