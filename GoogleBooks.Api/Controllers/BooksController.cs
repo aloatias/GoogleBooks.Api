@@ -22,12 +22,12 @@ namespace GoogleBooks.Api.Controllers
         }
 
         [HttpGet]
-        [Route("GetBookDetailsById")]
-        public async Task<IActionResult> GetBookDetailsByIdAsync(string bookId)
+        [Route("GetBookDetails")]
+        public async Task<IActionResult> GetBookDetailsAsync(string bookId)
         {
             try
             {
-                var bookDetailsResult = await _booksService.GetBookDetailsByIdAsync(bookId);
+                var bookDetailsResult = await _booksService.GetBookDetailsAsync(bookId);
 
                 switch (bookDetailsResult.Status)
                 {
@@ -41,7 +41,7 @@ namespace GoogleBooks.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsByIdAsync) }");
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
                 throw;
             }
         }
@@ -52,14 +52,14 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var bookCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
 
-                switch (bookCatalogResult.Status)
+                switch (booksCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(bookCatalogResult);
+                        return Ok(booksCatalogResult);
                     case StatusEnum.NotFound:
-                        return NotFound(bookCatalogResult.Error.ErrorMessage);
+                        return NotFound(booksCatalogResult.Error.ErrorMessage);
                     default:
                         return StatusCode(500);
                 }
