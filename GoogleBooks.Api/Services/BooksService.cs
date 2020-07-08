@@ -18,17 +18,19 @@ namespace GoogleBooks.Api.Services
         private readonly IGoogleBooksClientService _googleBooksClientService;
         private readonly ILogger<BooksService> _logger;
 
+        private const int booksCatalogSearchMinimalLength = 2;
+
         public BooksService(IGoogleBooksClientService googleBooksClientService, ILogger<BooksService> logger)
         {
             _googleBooksClientService = googleBooksClientService;
             _logger = logger;
         }
 
-        public async Task<IndividualBookDetailsResult> GetBookDetailsByIdAsync(string bookId)
+        public async Task<IndividualBookDetailsResult> GetBookDetailsAsync(string bookId)
         {
             try
             {
-                var individualBookDetails = await _googleBooksClientService.GetBookDetailsByIdAsync(bookId);
+                var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(bookId);
                 if (individualBookDetails == null)
                 {
                     return new IndividualBookDetailsResult(new NotFoundException(ExceptionMessages.GetNotFoundMessage(bookId)), StatusEnum.NotFound);
@@ -40,7 +42,7 @@ namespace GoogleBooks.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsByIdAsync) }");
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsAsync) }");
                 return new IndividualBookDetailsResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
             }
         }
@@ -50,7 +52,7 @@ namespace GoogleBooks.Api.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(booksCatalogSearch.Keywords)
-                    || booksCatalogSearch.Keywords.Length < 2)
+                    || booksCatalogSearch.Keywords.Length < booksCatalogSearchMinimalLength)
                 {
                     return new BooksCatalogResult(new InvalidKeywordException(ExceptionMessages.InvalidKeyword), StatusEnum.InvalidParamater);
                 }

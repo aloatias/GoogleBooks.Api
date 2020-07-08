@@ -17,7 +17,7 @@ namespace GoogleBooks.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<GoogleBookDetailsFull> GetBookDetailsByIdAsync(string bookId)
+        public async Task<GoogleBookDetailsFull> GetBookDetailsAsync(string bookId)
         {
             try
             {
