@@ -22,9 +22,10 @@ namespace GoogleBooks.Client.Services
             try
             {
                 _urlFactory.SetBookDetailsUrl(bookId);
-                var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
+                
+                string responseString = await GetResponseStringAsync();
 
-                return JsonConvert.DeserializeObject<GoogleBookDetailsFull>(responseString);
+                return DeserializeResponse<GoogleBookDetailsFull>(responseString);
             }
             catch
             {
@@ -37,15 +38,27 @@ namespace GoogleBooks.Client.Services
             try
             {
                 _urlFactory.SetBooksCatalogUrl(keywords, pageSize, pageSize * pageNumber);
-                
-                var responseString = await _httpClient.GetStringAsync(_urlFactory.Url);
 
-                return JsonConvert.DeserializeObject<GoogleBooksCatalog>(responseString);
+                string responseString = await GetResponseStringAsync();
+
+                return DeserializeResponse<GoogleBooksCatalog>(responseString);
             }
             catch
             {
                 throw;
             }
         }
+
+        #region Private Methods
+        private async Task<string> GetResponseStringAsync()
+        {
+            return await _httpClient.GetStringAsync(_urlFactory.Url);
+        }
+
+        private T DeserializeResponse<T>(string responseString) where T : class
+        {
+            return JsonConvert.DeserializeObject<T>(responseString);
+        }
+        #endregion
     }
 }
