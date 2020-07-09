@@ -21,8 +21,6 @@ namespace GoogleBooks.Api.Services
         private readonly IGoogleBooksClientService _googleBooksClientService;
         private readonly ILogger<BooksService> _logger;
 
-        private const int booksCatalogSearchMinimalLength = 2;
-
         public BooksService(
             IGoogleBooksClientService googleBooksClientService,
             ILogger<BooksService> logger)
