@@ -34,7 +34,7 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                // External object validation
+                // Create valid book
                 var book = _domainFactory.CreateBook(bookId);
 
                 var bookDetailsResult = await _booksService.GetBookDetailsAsync(book);
@@ -62,7 +62,7 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                // External object validation
+                // Create valid book catalog
                 var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
                      keywords,
                      pageNumber,
@@ -71,13 +71,12 @@ namespace GoogleBooks.Api.Controllers
 
                 var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
 
-                switch (booksCatalogResult.Status)
+                if (booksCatalogResult.Status != StatusEnum.Ok)
                 {
-                    case StatusEnum.Ok:
-                        return Ok(booksCatalogResult);
-                    default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
+                    return StatusCode(500, booksCatalogResult.Error.Message);
                 }
+
+                return Ok(booksCatalogResult);
             }
             catch (Exception ex)
             {
@@ -92,7 +91,7 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                // External object validation
+                // Create valid book catalog
                 var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
                     catalogBooksSearch.Keywords,
                     catalogBooksSearch.PageNumber,
@@ -101,13 +100,12 @@ namespace GoogleBooks.Api.Controllers
 
                 var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
 
-                switch (booksCatalogResult.Status)
+                if (booksCatalogResult.Status != StatusEnum.Ok)
                 {
-                    case StatusEnum.Ok:
-                        return Ok(booksCatalogResult);
-                    default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
+                    return StatusCode(500, booksCatalogResult.Error.Message);
                 }
+
+                return Ok(booksCatalogResult);
             }
             catch (Exception ex)
             {

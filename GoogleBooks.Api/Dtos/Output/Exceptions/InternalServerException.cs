@@ -2,7 +2,7 @@
 {
     public class InternalServerException : ErrorBase
     {
-        public InternalServerException(string errorMessage) : base(errorMessage)
+        public InternalServerException(string message) : base(message)
         {
         }
     }

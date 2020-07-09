@@ -14,7 +14,7 @@ namespace GoogleBooks.Api.Domain
                 throw new InvalidBookException(ExceptionMessages.EmptyId);
             }
 
-            if (bookId.Length > 12 || bookId.Length < 12)
+            if (bookId.Length != 12)
             {
                 throw new InvalidBookException(ExceptionMessages.InvalidIdLength);
             }

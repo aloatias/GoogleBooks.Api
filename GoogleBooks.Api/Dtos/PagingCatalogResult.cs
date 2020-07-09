@@ -1,10 +1,15 @@
 ﻿namespace GoogleBooks.Api.Dtos
 {
-    public class PagingInfoResult : PagingInfoBase
+    public class PagingCatalogResult : PagingCatalogBase
     {
         public int TotalItems { get; private set; }
 
-        public PagingInfoResult(string keywords, int pageNumber, int pageSize, int totalItems)
+        public PagingCatalogResult
+        (
+            string keywords,
+            int pageNumber,
+            int pageSize,
+            int totalItems)
         {
             Keywords = keywords;
             PageNumber = pageNumber;
