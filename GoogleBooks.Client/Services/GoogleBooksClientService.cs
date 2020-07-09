@@ -11,7 +11,9 @@ namespace GoogleBooks.Client.Services
         private readonly IUrlFactory _urlFactory;
         private readonly HttpClient _httpClient;
 
-        public GoogleBooksClientService(IUrlFactory urlFactory, HttpClient httpClient)
+        public GoogleBooksClientService(
+            IUrlFactory urlFactory,
+            HttpClient httpClient)
         {
             _urlFactory = urlFactory;
             _httpClient = httpClient;
@@ -23,9 +25,9 @@ namespace GoogleBooks.Client.Services
             {
                 _urlFactory.SetBookDetailsUrl(bookId);
                 
-                string responseString = await GetResponseStringAsync();
+                string response = await GetResponseStringAsync();
 
-                return DeserializeResponse<GoogleBookDetailsFull>(responseString);
+                return DeserializeResponse<GoogleBookDetailsFull>(response);
             }
             catch
             {
@@ -39,9 +41,9 @@ namespace GoogleBooks.Client.Services
             {
                 _urlFactory.SetBooksCatalogUrl(keywords, pageSize, pageSize * pageNumber);
 
-                string responseString = await GetResponseStringAsync();
+                string response = await GetResponseStringAsync();
 
-                return DeserializeResponse<GoogleBooksCatalog>(responseString);
+                return DeserializeResponse<GoogleBooksCatalog>(response);
             }
             catch
             {

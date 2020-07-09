@@ -1,12 +1,14 @@
-﻿namespace GoogleBooks.Api.Dtos.Output.Exceptions
-{
-    public abstract class ErrorBase
-    {
-        public string ErrorMessage { get; private set; }
+﻿using System;
 
-        public ErrorBase(string errorMessage)
+namespace GoogleBooks.Api.Dtos.Output.Exceptions
+{
+    public abstract class ErrorBase : Exception
+    {
+        public string Message { get; private set; }
+
+        public ErrorBase(string message)
         {
-            ErrorMessage = errorMessage;
+            Message = message;
         }
     }
 }

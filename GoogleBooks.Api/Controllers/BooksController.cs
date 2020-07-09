@@ -1,5 +1,7 @@
-﻿using GoogleBooks.Api.Dtos;
+﻿using GoogleBooks.Api.Domain;
+using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
+using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,11 +14,16 @@ namespace GoogleBooks.Api.Controllers
     [Route("[controller]")]
     public class BooksController : Controller
     {
+        private readonly IDomainFactory _domainFactory;
         private readonly IBooksService _booksService;
         private readonly ILogger<BooksController> _logger;
 
-        public BooksController(IBooksService booksService, ILogger<BooksController> logger)
+        public BooksController(
+            IDomainFactory domainFactory,
+            IBooksService booksService,
+            ILogger<BooksController> logger)
         {
+            _domainFactory = domainFactory;
             _booksService = booksService;
             _logger = logger;
         }
@@ -27,22 +34,25 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var bookDetailsResult = await _booksService.GetBookDetailsAsync(bookId);
+                // External object validation
+                var book = _domainFactory.CreateBook(bookId);
+
+                var bookDetailsResult = await _booksService.GetBookDetailsAsync(book);
 
                 switch (bookDetailsResult.Status)
                 {
                     case StatusEnum.Ok:
                         return Ok(bookDetailsResult.IndividualBookDetails);
                     case StatusEnum.NotFound:
-                        return StatusCode(204, bookDetailsResult.Error.ErrorMessage);
+                        return StatusCode(204, bookDetailsResult.Error.Message);
                     default:
-                        return StatusCode(500);
+                        return StatusCode(500, bookDetailsResult.Error.Message);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                throw;
+                return StatusCode(500, ((InvalidBookException)ex).Message);
             }
         }
 
@@ -52,22 +62,29 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(new BooksCatalogSearch { Keywords = keywords, PageNumber = pageNumber, PageSize = pageSize });
+                // External object validation
+                var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
+                     keywords,
+                     pageNumber,
+                     pageSize
+                 );
+
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
 
                 switch (booksCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
                         return Ok(booksCatalogResult);
                     case StatusEnum.NotFound:
-                        return NotFound(booksCatalogResult.Error.ErrorMessage);
+                        return NotFound(booksCatalogResult.Error.Message);
                     default:
-                        return StatusCode(500);
+                        return StatusCode(500, booksCatalogResult.Error.Message);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogOnApiLaunchAsync) }");
-                throw;
+                return StatusCode(500, ((InvalidBooksCatalogException)ex).Message);
             }
         }
 
@@ -77,22 +94,29 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                var getBooksCatalogResult = await _booksService.GetBooksCatalogAsync(catalogBooksSearch);
+                // External object validation
+                var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
+                    catalogBooksSearch.Keywords,
+                    catalogBooksSearch.PageNumber,
+                    catalogBooksSearch.PageSize
+                );
 
-                switch (getBooksCatalogResult.Status)
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
+
+                switch (booksCatalogResult.Status)
                 {
                     case StatusEnum.Ok:
-                        return Ok(getBooksCatalogResult);
+                        return Ok(booksCatalogResult);
                     case StatusEnum.InvalidParamater:
-                        return BadRequest(getBooksCatalogResult.Error.ErrorMessage);
+                        return BadRequest(booksCatalogResult.Error.Message);
                     default:
-                        return StatusCode(500);
+                        return StatusCode(500, booksCatalogResult.Error.Message);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogAsync) }");
-                throw;
+                return StatusCode(500, ((InvalidBooksCatalogException)ex).Message);
             }
         }
     }
