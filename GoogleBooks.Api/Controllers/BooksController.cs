@@ -34,7 +34,7 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                // External object validation
+                // Create valid book
                 var book = _domainFactory.CreateBook(bookId);
 
                 var bookDetailsResult = await _booksService.GetBookDetailsAsync(book);
@@ -62,22 +62,22 @@ namespace GoogleBooks.Api.Controllers
         {
             try
             {
-                // External object validation
-                var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
+                // Create valid book catalog
+                var checkedBooksCatalogSearch = _domainFactory.CreateBooksCatalog
+                (
                      keywords,
                      pageNumber,
                      pageSize
                  );
 
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
-                switch (booksCatalogResult.Status)
+                if (booksCatalogResult.Status != StatusEnum.Ok)
                 {
-                    case StatusEnum.Ok:
-                        return Ok(booksCatalogResult);
-                    default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
+                    return StatusCode(500, booksCatalogResult.Error.Message);
                 }
+
+                return Ok(booksCatalogResult);
             }
             catch (Exception ex)
             {
@@ -88,26 +88,26 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpPost]
         [Route("GetBooksCatalog")]
-        public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch)
+        public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch booksCatalogSearch)
         {
             try
             {
-                // External object validation
-                var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
-                    catalogBooksSearch.Keywords,
-                    catalogBooksSearch.PageNumber,
-                    catalogBooksSearch.PageSize
+                // Create valid book catalog
+                var checkedBooksCatalogSearch = _domainFactory.CreateBooksCatalog
+                (
+                    booksCatalogSearch.Keywords,
+                    booksCatalogSearch.PageNumber,
+                    booksCatalogSearch.PageSize
                 );
 
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
-                switch (booksCatalogResult.Status)
+                if (booksCatalogResult.Status != StatusEnum.Ok)
                 {
-                    case StatusEnum.Ok:
-                        return Ok(booksCatalogResult);
-                    default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
+                    return StatusCode(500, booksCatalogResult.Error.Message);
                 }
+
+                return Ok(booksCatalogResult);
             }
             catch (Exception ex)
             {

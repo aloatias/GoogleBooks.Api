@@ -36,7 +36,11 @@ namespace GoogleBooks.Api.Services
                 var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(book.Id);
                 if (individualBookDetails == null)
                 {
-                    return new IndividualBookDetailsResult(new NotFoundException(ExceptionMessages.GetNotFoundMessage(book.Id)), StatusEnum.NotFound);
+                    return new IndividualBookDetailsResult
+                    (
+                        new NotFoundException(ExceptionMessages.GetNotFoundMessage(book.Id))
+                        , StatusEnum.NotFound
+                    );
                 }
 
                 IndividualBookDetails bookDetails = MapBookDataToResultDto(individualBookDetails);
@@ -60,17 +64,25 @@ namespace GoogleBooks.Api.Services
                     booksCatalogSearch.PageNumber
                 );
 
-                var pagingInfoResult = new PagingInfoResult(booksCatalogSearch.Keywords, booksCatalogSearch.PageNumber, booksCatalogSearch.PageSize, booksCatalogResult.TotalItems);
+                var pagingInfoResult = new PagingCatalogResult
+                (
+                    booksCatalogSearch.Keywords,
+                    booksCatalogSearch.PageNumber,
+                    booksCatalogSearch.PageSize,
+                    booksCatalogResult.TotalItems
+                );
 
                 if (booksCatalogResult.Items == null)
                 {
                     return new BooksCatalogResult(
                         new BooksCatalogSearchResult(
                             pagingInfoResult,
-                            new DtosBooksCatalog(
+                            new DtosBooksCatalog
+                            (
                                 booksCatalogResult.Kind,
-                                new List<BookDetailsForCatalog>())
-                            ),
+                                new List<BookDetailsForCatalog>()
+                            )
+                        ),
                         StatusEnum.Ok
                     );
                 }

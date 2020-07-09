@@ -4,7 +4,7 @@ namespace GoogleBooks.Api.Dtos.Output
 {
     public class BooksCatalogResult : ResultBase
     {
-        public PagingInfoResult PagingInfo { get; private set; }
+        public PagingCatalogResult PagingInfo { get; private set; }
 
         public BooksCatalog BooksCatalog { get; private set; }
 
