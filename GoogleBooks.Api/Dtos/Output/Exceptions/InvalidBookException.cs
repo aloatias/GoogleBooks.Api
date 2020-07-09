@@ -2,7 +2,7 @@
 {
     public class InvalidBookException : ErrorBase
     {
-        public InvalidBookException(string error) : base(error)
+        public InvalidBookException(string message) : base(message)
         {
         }
     }
