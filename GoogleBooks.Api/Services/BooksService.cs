@@ -1,4 +1,5 @@
-﻿using GoogleBooks.Api.Dtos;
+﻿using GoogleBooks.Api.Domain;
+using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Helpers;
@@ -10,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dimensions = GoogleBooks.Api.Dtos.Output.Dimensions;
+using DomainBooksCatalog = GoogleBooks.Api.Domain.BooksCatalog;
+using DtosBooksCatalog = GoogleBooks.Api.Dtos.Output.BooksCatalog;
 
 namespace GoogleBooks.Api.Services
 {
@@ -20,23 +23,25 @@ namespace GoogleBooks.Api.Services
 
         private const int booksCatalogSearchMinimalLength = 2;
 
-        public BooksService(IGoogleBooksClientService googleBooksClientService, ILogger<BooksService> logger)
+        public BooksService(
+            IGoogleBooksClientService googleBooksClientService,
+            ILogger<BooksService> logger)
         {
             _googleBooksClientService = googleBooksClientService;
             _logger = logger;
         }
 
-        public async Task<IndividualBookDetailsResult> GetBookDetailsAsync(string bookId)
+        public async Task<IndividualBookDetailsResult> GetBookDetailsAsync(Book book)
         {
             try
             {
-                var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(bookId);
+                var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(book.Id);
                 if (individualBookDetails == null)
                 {
-                    return new IndividualBookDetailsResult(new NotFoundException(ExceptionMessages.GetNotFoundMessage(bookId)), StatusEnum.NotFound);
+                    return new IndividualBookDetailsResult(new NotFoundException(ExceptionMessages.GetNotFoundMessage(book.Id)), StatusEnum.NotFound);
                 }
 
-                IndividualBookDetails bookDetails = MapBookDataToDtoResult(individualBookDetails);
+                IndividualBookDetails bookDetails = MapBookDataToResultDto(individualBookDetails);
 
                 return new IndividualBookDetailsResult(bookDetails, StatusEnum.Ok);
             }
@@ -47,16 +52,10 @@ namespace GoogleBooks.Api.Services
             }
         }
 
-        public async Task<BooksCatalogResult> GetBooksCatalogAsync(BooksCatalogSearch booksCatalogSearch)
+        public async Task<BooksCatalogResult> GetBooksCatalogAsync(DomainBooksCatalog booksCatalogSearch)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(booksCatalogSearch.Keywords)
-                    || booksCatalogSearch.Keywords.Length < booksCatalogSearchMinimalLength)
-                {
-                    return new BooksCatalogResult(new InvalidKeywordException(ExceptionMessages.InvalidKeyword), StatusEnum.InvalidParamater);
-                }
-
                 var booksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync(
                     booksCatalogSearch.Keywords,
                     booksCatalogSearch.PageSize,
@@ -70,7 +69,7 @@ namespace GoogleBooks.Api.Services
                     return new BooksCatalogResult(
                         new BooksCatalogSearchResult(
                             pagingInfoResult,
-                            new BooksCatalog(
+                            new DtosBooksCatalog(
                                 booksCatalogResult.Kind,
                                 new List<BookDetailsForCatalog>())
                             ),
@@ -78,9 +77,9 @@ namespace GoogleBooks.Api.Services
                     );
                 }
 
-                List<BookDetailsForCatalog> bookDetails = MapBookCatalogDataToDtoResult(booksCatalogResult);
+                List<BookDetailsForCatalog> bookDetails = MapBookCatalogDataToResultDto(booksCatalogResult);
 
-                var booksCatalog = new BooksCatalog(booksCatalogResult.Kind, bookDetails);
+                var booksCatalog = new DtosBooksCatalog(booksCatalogResult.Kind, bookDetails);
                 var booksCatalogSearchResult = new BooksCatalogSearchResult(pagingInfoResult, booksCatalog);
 
                 return new BooksCatalogResult(booksCatalogSearchResult, StatusEnum.Ok);
@@ -93,7 +92,7 @@ namespace GoogleBooks.Api.Services
         }
 
         #region Private Methods
-        private List<BookDetailsForCatalog> MapBookCatalogDataToDtoResult(GoogleBooksCatalog booksCatalogResult)
+        private List<BookDetailsForCatalog> MapBookCatalogDataToResultDto(GoogleBooksCatalog booksCatalogResult)
         {
             var bookDetailsForCatalog = new List<BookDetailsForCatalog>();
             foreach (var book in booksCatalogResult.Items)
@@ -144,7 +143,7 @@ namespace GoogleBooks.Api.Services
             return bookDetailsForCatalog;
         }
 
-        private IndividualBookDetails MapBookDataToDtoResult(GoogleBookDetailsFull individualBookDetails)
+        private IndividualBookDetails MapBookDataToResultDto(GoogleBookDetailsFull individualBookDetails)
         {
             return new IndividualBookDetails
             {

@@ -1,4 +1,5 @@
-﻿using GoogleBooks.Api.Interfaces;
+﻿using GoogleBooks.Api.Domain;
+using GoogleBooks.Api.Interfaces;
 using GoogleBooks.Api.Services;
 using GoogleBooks.Client.Configuration;
 using GoogleBooks.Client.Configuration.ConfigurationOptions;
@@ -14,6 +15,7 @@ namespace GoogleBooks.Api.Configuration
         public static void ConfigureApiServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Api configuration
+            services.AddScoped<IDomainFactory, DomainFactory>();
             services.AddScoped<IBooksService, BooksService>();
             services.Configure<GoogleBooksUrlOptions>(configuration.GetSection(_urlsSection));
 
