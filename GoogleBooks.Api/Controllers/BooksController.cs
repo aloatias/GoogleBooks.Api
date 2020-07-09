@@ -63,13 +63,14 @@ namespace GoogleBooks.Api.Controllers
             try
             {
                 // Create valid book catalog
-                var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
+                var checkedBooksCatalogSearch = _domainFactory.CreateBooksCatalog
+                (
                      keywords,
                      pageNumber,
                      pageSize
                  );
 
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
                 if (booksCatalogResult.Status != StatusEnum.Ok)
                 {
@@ -87,18 +88,19 @@ namespace GoogleBooks.Api.Controllers
 
         [HttpPost]
         [Route("GetBooksCatalog")]
-        public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch catalogBooksSearch)
+        public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch booksCatalogSearch)
         {
             try
             {
                 // Create valid book catalog
-                var booksCatalogSearch = _domainFactory.CreateBooksCatalog(
-                    catalogBooksSearch.Keywords,
-                    catalogBooksSearch.PageNumber,
-                    catalogBooksSearch.PageSize
+                var checkedBooksCatalogSearch = _domainFactory.CreateBooksCatalog
+                (
+                    booksCatalogSearch.Keywords,
+                    booksCatalogSearch.PageNumber,
+                    booksCatalogSearch.PageSize
                 );
 
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(booksCatalogSearch);
+                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
                 if (booksCatalogResult.Status != StatusEnum.Ok)
                 {
