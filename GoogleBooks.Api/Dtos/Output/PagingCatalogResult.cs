@@ -1,4 +1,4 @@
-﻿namespace GoogleBooks.Api.Dtos
+﻿namespace GoogleBooks.Api.Dtos.Output
 {
     public class PagingCatalogResult : PagingCatalogBase
     {
