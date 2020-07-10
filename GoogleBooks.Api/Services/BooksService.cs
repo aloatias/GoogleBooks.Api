@@ -21,9 +21,11 @@ namespace GoogleBooks.Api.Services
         private readonly IGoogleBooksClientService _googleBooksClientService;
         private readonly ILogger<BooksService> _logger;
 
-        public BooksService(
+        public BooksService
+        (
             IGoogleBooksClientService googleBooksClientService,
-            ILogger<BooksService> logger)
+            ILogger<BooksService> logger
+        )
         {
             _googleBooksClientService = googleBooksClientService;
             _logger = logger;
@@ -33,13 +35,17 @@ namespace GoogleBooks.Api.Services
         {
             try
             {
+                if (book == null)
+                {
+                    return new IndividualBookDetailsResult(new InvalidBookException(ExceptionMessages.NullArgument), StatusEnum.InvalidParamater);
+                }
+
                 var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(book.Id);
                 if (individualBookDetails == null)
                 {
                     return new IndividualBookDetailsResult
                     (
-                        new NotFoundException(ExceptionMessages.GetNotFoundMessage(book.Id))
-                        , StatusEnum.NotFound
+                        new NotFoundException(ExceptionMessages.GetNotFoundMessage(book.Id)), StatusEnum.NotFound
                     );
                 }
 
@@ -58,7 +64,13 @@ namespace GoogleBooks.Api.Services
         {
             try
             {
-                var booksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync(
+                if (booksCatalogSearch == null)
+                {
+                    return new BooksCatalogResult(new InvalidBookException(ExceptionMessages.NullArgument), StatusEnum.InvalidParamater);
+                }
+
+                var booksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync
+                (
                     booksCatalogSearch.Keywords,
                     booksCatalogSearch.PageSize,
                     booksCatalogSearch.PageNumber
@@ -74,8 +86,10 @@ namespace GoogleBooks.Api.Services
 
                 if (booksCatalogResult.Items == null)
                 {
-                    return new BooksCatalogResult(
-                        new BooksCatalogSearchResult(
+                    return new BooksCatalogResult
+                    (
+                        new BooksCatalogSearchResult
+                        (
                             pagingInfoResult,
                             new DtosBooksCatalog
                             (

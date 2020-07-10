@@ -1,6 +1,6 @@
 ﻿namespace GoogleBooks.Client.Dtos.Output
 {
-    public class SaleInfoBase
+    public abstract class SaleInfoBase
     {
         public string Country { get; set; }
 

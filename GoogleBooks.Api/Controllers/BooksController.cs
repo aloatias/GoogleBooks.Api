@@ -18,10 +18,12 @@ namespace GoogleBooks.Api.Controllers
         private readonly IBooksService _booksService;
         private readonly ILogger<BooksController> _logger;
 
-        public BooksController(
+        public BooksController
+        (
             IDomainFactory domainFactory,
             IBooksService booksService,
-            ILogger<BooksController> logger)
+            ILogger<BooksController> logger
+        )
         {
             _domainFactory = domainFactory;
             _booksService = booksService;
@@ -43,6 +45,8 @@ namespace GoogleBooks.Api.Controllers
                 {
                     case StatusEnum.Ok:
                         return Ok(bookDetailsResult.IndividualBookDetails);
+                    case StatusEnum.InvalidParamater:
+                        return BadRequest(bookDetailsResult.Error.Message);
                     case StatusEnum.NotFound:
                         return StatusCode(204, bookDetailsResult.Error.Message);
                     default:
@@ -72,12 +76,15 @@ namespace GoogleBooks.Api.Controllers
 
                 var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
-                if (booksCatalogResult.Status != StatusEnum.Ok)
+                switch (booksCatalogResult.Status)
                 {
-                    return StatusCode(500, booksCatalogResult.Error.Message);
+                    case StatusEnum.Ok:
+                        return Ok(booksCatalogResult);
+                    case StatusEnum.InvalidParamater:
+                        return BadRequest(booksCatalogResult.Error.Message);
+                    default:
+                        return StatusCode(500, booksCatalogResult.Error.Message);
                 }
-
-                return Ok(booksCatalogResult);
             }
             catch (Exception ex)
             {
@@ -102,12 +109,15 @@ namespace GoogleBooks.Api.Controllers
 
                 var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
-                if (booksCatalogResult.Status != StatusEnum.Ok)
+                switch (booksCatalogResult.Status)
                 {
-                    return StatusCode(500, booksCatalogResult.Error.Message);
+                    case StatusEnum.Ok:
+                        return Ok(booksCatalogResult);
+                    case StatusEnum.InvalidParamater:
+                        return BadRequest(booksCatalogResult.Error.Message);
+                    default:
+                        return StatusCode(500, booksCatalogResult.Error.Message);
                 }
-
-                return Ok(booksCatalogResult);
             }
             catch (Exception ex)
             {
