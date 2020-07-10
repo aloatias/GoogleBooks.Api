@@ -1,6 +1,6 @@
 ﻿namespace GoogleBooks.Client.Dtos.Output
 {
-    public class GoogleBookDetailsBase
+    public abstract class GoogleBookDetailsBase
     {
         public string Id { get; set; }
 

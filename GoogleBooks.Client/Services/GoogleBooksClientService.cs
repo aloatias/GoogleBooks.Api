@@ -11,9 +11,11 @@ namespace GoogleBooks.Client.Services
         private readonly IUrlFactory _urlFactory;
         private readonly HttpClient _httpClient;
 
-        public GoogleBooksClientService(
+        public GoogleBooksClientService
+        (
             IUrlFactory urlFactory,
-            HttpClient httpClient)
+            HttpClient httpClient
+        )
         {
             _urlFactory = urlFactory;
             _httpClient = httpClient;
@@ -57,9 +59,9 @@ namespace GoogleBooks.Client.Services
             return await _httpClient.GetStringAsync(_urlFactory.Url);
         }
 
-        private T DeserializeResponse<T>(string responseString) where T : class
+        private T DeserializeResponse<T>(string response) where T : class
         {
-            return JsonConvert.DeserializeObject<T>(responseString);
+            return JsonConvert.DeserializeObject<T>(response);
         }
         #endregion
     }

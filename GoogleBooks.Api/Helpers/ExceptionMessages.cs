@@ -2,9 +2,11 @@
 {
     public static class ExceptionMessages
     {
+        private const string NotFound = "The Id: \" id \" was not found";
+
         public const string InvalidKeyword = "You must at least enter a two character keyword";
 
-        private const string NotFound = "The Id: \" id \" was not found";
+        public const string NullArgument = "Object cannot be null";
 
         public const string InvalidPageNumber = "The page number cannot be lower than zero";
 
