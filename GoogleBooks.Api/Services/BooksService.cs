@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dimensions = GoogleBooks.Api.Dtos.Output.Dimensions;
 using DomainBooksCatalog = GoogleBooks.Api.Domain.BooksCatalog;
 using DtosBooksCatalog = GoogleBooks.Api.Dtos.Output.BooksCatalog;
 
@@ -80,7 +79,7 @@ namespace GoogleBooks.Api.Services
                     booksCatalogSearch.PageNumber
                 );
 
-                var pagingInfoResult = new PagingCatalogResult
+                var booksCatalogPaging = new PagingCatalogResult
                 (
                     booksCatalogSearch.Keywords,
                     booksCatalogSearch.PageNumber,
@@ -94,7 +93,7 @@ namespace GoogleBooks.Api.Services
                     (
                         new BooksCatalogSearchResult
                         (
-                            pagingInfoResult,
+                            booksCatalogPaging,
                             new DtosBooksCatalog
                             (
                                 booksCatalogResult.Kind,
@@ -105,10 +104,10 @@ namespace GoogleBooks.Api.Services
                     );
                 }
 
-                List<BookDetailsForCatalog> bookDetails = MapBookCatalogDataToResultDto(booksCatalogResult);
+                List<BookDetailsForCatalog> bookDetails = _mapper.Map<List<BookDetailsForCatalog>>(booksCatalogResult.Items);
 
                 var booksCatalog = new DtosBooksCatalog(booksCatalogResult.Kind, bookDetails);
-                var booksCatalogSearchResult = new BooksCatalogSearchResult(pagingInfoResult, booksCatalog);
+                var booksCatalogSearchResult = new BooksCatalogSearchResult(booksCatalogPaging, booksCatalog);
 
                 return new BooksCatalogResult(booksCatalogSearchResult, StatusEnum.Ok);
             }
@@ -138,8 +137,7 @@ namespace GoogleBooks.Api.Services
                         Publisher = book.VolumeInfo?.Publisher,
                         PublishedDate = book.VolumeInfo?.PublishedDate,
                         Description = book.VolumeInfo?.Description,
-                        TextReadingMode = book.VolumeInfo?.ReadingModes.Text,
-                        ImageReadingMode = book.VolumeInfo?.ReadingModes?.Image,
+                        //ImageReadingMode = book.VolumeInfo?.ReadingModes?.Image,
                         PageCount = book.VolumeInfo?.PageCount,
                         PrintedPageCount = book.VolumeInfo?.PrintedPageCount,
                         PrintType = book.VolumeInfo?.PrintType,
@@ -169,49 +167,6 @@ namespace GoogleBooks.Api.Services
             }
 
             return bookDetailsForCatalog;
-        }
-
-        private IndividualBookDetails MapBookDataToResultDto(GoogleBookDetailsFull individualBookDetails)
-        {
-            return new IndividualBookDetails
-            {
-                Id = individualBookDetails.Id,
-                Title = individualBookDetails.VolumeInfo.Title,
-                Description = individualBookDetails.VolumeInfo.Description,
-                Etag = individualBookDetails.Etag,
-                Authors = individualBookDetails.VolumeInfo.Authors,
-                Publisher = individualBookDetails.VolumeInfo.Publisher,
-                PublishedDate = individualBookDetails.VolumeInfo.PublishedDate,
-                SmallImage = individualBookDetails.VolumeInfo?.ImageLinks?.Small,
-                MediumImage = individualBookDetails.VolumeInfo?.ImageLinks?.Medium,
-                LargeImage = individualBookDetails.VolumeInfo?.ImageLinks?.Large,
-                ExtraLargeImage = individualBookDetails.VolumeInfo?.ImageLinks?.ExtraLarge,
-                SmallThumbnail = individualBookDetails.VolumeInfo?.ImageLinks?.SmallThumbnail,
-                Thumbnail = individualBookDetails.VolumeInfo?.ImageLinks?.Thumbnail,
-                Country = individualBookDetails.SaleInfo?.Country,
-                Saleability = individualBookDetails.SaleInfo?.Saleability,
-                IsEbook = individualBookDetails.SaleInfo?.IsEbook,
-                Viewability = individualBookDetails.AccessInfo?.Viewability,
-                Embeddable = individualBookDetails.AccessInfo?.Embeddable,
-                PublicDomain = individualBookDetails.AccessInfo?.PublicDomain,
-                IsPdfAvailable = individualBookDetails.AccessInfo?.Pdf?.IsAvailable,
-                PdfActsTokenLink = individualBookDetails.AccessInfo?.Pdf?.ActsTokenLink,
-                WebReaderLink = individualBookDetails.AccessInfo?.WebReaderLink,
-                AccessViewStatus = individualBookDetails.AccessInfo?.AccessViewStatus,
-                QuoteSharingAllowed = individualBookDetails.AccessInfo?.QuoteSharingAllowed,
-                Price = individualBookDetails.SaleInfo?.ListPrice?.Amount,
-                CurrencyCode = individualBookDetails.SaleInfo?.ListPrice?.CurrencyCode,
-                Dimensions = new Dimensions
-                {
-                    Height = individualBookDetails.VolumeInfo.Dimensions?.Height,
-                    Thickness = individualBookDetails.VolumeInfo.Dimensions?.Thickness,
-                    Width = individualBookDetails.VolumeInfo.Dimensions?.Width,
-                },
-                PageCount = individualBookDetails.VolumeInfo?.PageCount,
-                PrintedPageCount = individualBookDetails.VolumeInfo?.PrintedPageCount,
-                Categories = individualBookDetails.VolumeInfo?.Categories ?? null,
-                Language = individualBookDetails.VolumeInfo?.Language
-            };
         }
 
         #endregion
