@@ -20,9 +20,7 @@
 
         public string Description { get; set; }
 
-        public string TextReadingMode { get; set; }
-
-        public bool? ImageReadingMode { get; set; }
+        public ReadingModes ReadingModes { get; set; }
 
         public int? PageCount { get; set; }
 
