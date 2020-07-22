@@ -1,4 +1,5 @@
-﻿using GoogleBooks.Api.Domain;
+﻿using AutoMapper;
+using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Dtos.Output.Exceptions;
@@ -19,15 +20,18 @@ namespace GoogleBooks.Api.Services
     public class BooksService : IBooksService
     {
         private readonly IGoogleBooksClientService _googleBooksClientService;
+        private readonly IMapper _mapper;
         private readonly ILogger<BooksService> _logger;
 
         public BooksService
         (
             IGoogleBooksClientService googleBooksClientService,
+            IMapper mapper,
             ILogger<BooksService> logger
         )
         {
             _googleBooksClientService = googleBooksClientService;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -49,7 +53,7 @@ namespace GoogleBooks.Api.Services
                     );
                 }
 
-                IndividualBookDetails bookDetails = MapBookDataToResultDto(individualBookDetails);
+                IndividualBookDetails bookDetails = _mapper.Map<IndividualBookDetails>(individualBookDetails);
 
                 return new IndividualBookDetailsResult(bookDetails, StatusEnum.Ok);
             }
