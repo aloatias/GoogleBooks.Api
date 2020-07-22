@@ -15,14 +15,14 @@ using Xunit;
 
 namespace GoogleBooks.Api.Integration.Tests
 {
-    public class GetBookDetailsTests : TestFactory
+    public class BookDetailsTests : TestFactory
     {
         private IBooksService _bookService;
         private Mock<IGoogleBooksClientService> _mockedGoogleClientService;
         private Mock<IMapper> _mockedMapperService;
         private readonly ILogger<BooksService> _logger;
 
-        public GetBookDetailsTests()
+        public BookDetailsTests()
         {
             _mockedGoogleClientService = MockService<IGoogleBooksClientService>();
             _mockedMapperService = MockService<IMapper>();
