@@ -13,5 +13,8 @@
     <ProjectReference Include="..\GoogleBooks.Client\GoogleBooks.Client.csproj" />
   </ItemGroup>
 
-
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
 </Project>
