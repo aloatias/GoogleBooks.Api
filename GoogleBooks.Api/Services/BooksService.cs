@@ -5,7 +5,6 @@ using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Helpers;
 using GoogleBooks.Api.Interfaces;
-using GoogleBooks.Client.Dtos.Output;
 using GoogleBooks.Client.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
@@ -117,58 +116,5 @@ namespace GoogleBooks.Api.Services
                 return new BooksCatalogResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
             }
         }
-
-        #region Private Methods
-        private List<BookDetailsForCatalog> MapBookCatalogDataToResultDto(GoogleBooksCatalog booksCatalogResult)
-        {
-            var bookDetailsForCatalog = new List<BookDetailsForCatalog>();
-            foreach (var book in booksCatalogResult.Items)
-            {
-                bookDetailsForCatalog.Add
-                (
-                    new BookDetailsForCatalog
-                    {
-                        Id = book.Id,
-                        Kind = book.Kind,
-                        Etag = book.Etag,
-                        SelfLink = book.SelfLink,
-                        Title = book.VolumeInfo?.Title,
-                        Authors = book.VolumeInfo?.Authors,
-                        Publisher = book.VolumeInfo?.Publisher,
-                        PublishedDate = book.VolumeInfo?.PublishedDate,
-                        Description = book.VolumeInfo?.Description,
-                        //ImageReadingMode = book.VolumeInfo?.ReadingModes?.Image,
-                        PageCount = book.VolumeInfo?.PageCount,
-                        PrintedPageCount = book.VolumeInfo?.PrintedPageCount,
-                        PrintType = book.VolumeInfo?.PrintType,
-                        MaturityRating = book.VolumeInfo?.MaturityRating,
-                        AllowAnonLogging = book.VolumeInfo?.AllowAnonLogging,
-                        ContentVersion = book.VolumeInfo?.ContentVersion,
-                        Language = book.VolumeInfo?.Language,
-                        PreviewLink = book.VolumeInfo?.PreviewLink,
-                        InfoLink = book.VolumeInfo?.InfoLink,
-                        CanonicalVolumeLink = book.VolumeInfo?.CanonicalVolumeLink,
-                        SmallThumbNail = book.VolumeInfo.ImageLinks?.SmallThumbnail,
-                        Thumbnail = book.VolumeInfo.ImageLinks?.Thumbnail,
-                        Country = book.AccessInfo?.Country,
-                        Saleability = book.SaleInfo?.Saleability,
-                        IsEbook = book.SaleInfo?.IsEbook,
-                        Embeddable = book.AccessInfo?.Embeddable,
-                        PublicDomain = book.AccessInfo?.PublicDomain,
-                        TextToSpeechPermission = book.AccessInfo?.TextToSpeechPermission,
-                        IsPdfAvailable = book.AccessInfo?.Pdf?.IsAvailable,
-                        PdfActsTokenLink = book.AccessInfo?.Pdf?.ActsTokenLink,
-                        WebReaderLink = book.AccessInfo?.WebReaderLink,
-                        AccessViewStatus = book.AccessInfo?.AccessViewStatus,
-                        QuoteSharingAllowed = book.AccessInfo?.QuoteSharingAllowed,
-                        Categories = book.VolumeInfo?.Categories ?? null
-                    }
-                );
-            }
-
-            return bookDetailsForCatalog;
-        }
-
-        #endregion
     }
 }
