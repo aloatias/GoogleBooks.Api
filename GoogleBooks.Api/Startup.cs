@@ -1,3 +1,4 @@
+using AutoMapper;
 using GoogleBooks.Api.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,8 @@ namespace GoogleBooks.Api
             services.AddLogging();
 
             services.ConfigureApiServices(Configuration);
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
