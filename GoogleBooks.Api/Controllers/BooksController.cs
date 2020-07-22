@@ -30,6 +30,11 @@ namespace GoogleBooks.Api.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets a book's details by its Id
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetBookDetails")]
         public async Task<IActionResult> GetBookDetailsAsync(string bookId)
@@ -60,39 +65,11 @@ namespace GoogleBooks.Api.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("GetBooksCatalogOnApiLaunch")]
-        public async Task<IActionResult> GetBooksCatalogOnApiLaunchAsync(string keywords, int pageNumber, int pageSize)
-        {
-            try
-            {
-                // Create valid book catalog
-                var checkedBooksCatalogSearch = _domainFactory.CreateBooksCatalog
-                (
-                     keywords,
-                     pageNumber,
-                     pageSize
-                 );
-
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
-
-                switch (booksCatalogResult.Status)
-                {
-                    case StatusEnum.Ok:
-                        return Ok(booksCatalogResult);
-                    case StatusEnum.InvalidParamater:
-                        return BadRequest(booksCatalogResult.Error.Message);
-                    default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogOnApiLaunchAsync) }");
-                return StatusCode(500, ((InvalidBooksCatalogException)ex).Message);
-            }
-        }
-
+        /// <summary>
+        /// Gets a book catalog with matching the keyword parameter. The response will also be paged by the entered parameters
+        /// </summary>
+        /// <param name="booksCatalogSearch"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("GetBooksCatalog")]
         public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch booksCatalogSearch)
