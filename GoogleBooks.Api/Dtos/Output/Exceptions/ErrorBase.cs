@@ -6,7 +6,7 @@ namespace GoogleBooks.Api.Dtos.Output.Exceptions
     {
         public string Message { get; private set; }
 
-        public ErrorBase(string message)
+        protected ErrorBase(string message)
         {
             Message = message;
         }
