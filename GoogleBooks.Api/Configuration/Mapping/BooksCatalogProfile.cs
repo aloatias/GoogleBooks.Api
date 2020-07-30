@@ -10,8 +10,6 @@ namespace GoogleBooks.Api.Configuration.Mapping
         {
             CreateMap<Client.Dtos.Output.ReadingModes, Dtos.Output.ReadingModes>();
 
-            //CreateMap<GoogleBooksCatalog, BookDetailsForCatalog>();
-
             CreateMap<GoogleBookDetailsLite, BookDetailsForCatalog>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.AccessViewStatus, opt => opt.MapFrom(src => src.AccessInfo.AccessViewStatus))
