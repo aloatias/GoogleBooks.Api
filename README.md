@@ -4,12 +4,4 @@ The APIs in the Google Books API Family let you bring Google Books features to y
 IDEs
 You can just launch the "GoogleBooks.Api" project on your Visual Studio/VS Code and a web browser will open to the Swashbuckle UI for you to start testing the APIs.
 
-<p>Docker (Windows using Linux containers) -> You can download docker here: https://docs.docker.com/docker-for-windows/install/<p>
-<p>Using powershell go inside "GoogleBooks\GoogleBooks.Api\GoogleBooks.Api" and execute the following commands:</p>
-<p>1) dotnet user-secrets set "Kestrel:Certificates:Development:Password" "GoogleBooksApi"</p>
-<p>2) dotnet dev-certs https -ep $Env:USERPROFILE\.aspnet\https\GoogleBooks.Api.pfx -p GoogleBooksApi</p>
-<p>3) dotnet dev-certs https --trust</p>
-<p>4) dotnet user-secrets -p .\GoogleBooks.Api.csproj set "Kestrel:Certificates:Development:Password" "GoogleBooksApi"</p>
-<p>5) cd..</p>
-<p>6) docker build --pull -t googlebooksapi .</p>
-<p>7) docker run --rm -it -p 5000:80 -p 5001:443 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORT=8001 -e ASPNETCORE_ENVIRONMENT=Development -v $Env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets -v $Env:USERPROFILE\.aspnet\https:/root/.aspnet/https/ googlebooksapi</p>
+For Docker deployment please refer to https://github.com/aloatias/GoogleBooks.Api/packages/341168
