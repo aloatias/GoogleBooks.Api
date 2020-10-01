@@ -4,7 +4,7 @@ namespace GoogleBooks.Api.Dtos.Output.Exceptions
 {
     public abstract class ErrorBase : Exception
     {
-        public string Message { get; private set; }
+        public override string Message { get; }
 
         protected ErrorBase(string message)
         {
