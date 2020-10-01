@@ -22,7 +22,7 @@ namespace GoogleBooks.Client.Integration.Tests
         protected IGoogleBooksClientService CreateGoogleBooksClientService()
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             _configuration = builder.Build();
 
