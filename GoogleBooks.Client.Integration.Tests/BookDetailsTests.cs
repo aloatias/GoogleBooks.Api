@@ -28,9 +28,10 @@ namespace GoogleBooks.Client.Integration.Tests
             var actualResult = await _googleBooksClientService.GetBookDetailsAsync(bookId);
 
             // Test
-            Check.That(actualResult.Status).Equals(expectedResult.Status);
+            Check.That(expectedResult.Status).Equals(actualResult.Status);
             Check.That(bookId).Equals(actualResult.Content.Id);
-            Check.That(expectedResult).IsInstanceOf<Ok<GoogleBookDetailsFull>>();
+            Check.That(actualResult).IsInstanceOf<Ok<GoogleBookDetailsFull>>();
+            Check.That(actualResult.Content).IsNotNull();
         }
 
         [Fact(DisplayName = "Should throw exception when no Id is matched")]
