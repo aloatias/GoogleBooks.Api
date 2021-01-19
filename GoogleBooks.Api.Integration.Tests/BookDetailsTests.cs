@@ -94,7 +94,7 @@ namespace GoogleBooks.Api.Integration.Tests
             };
 
             _mockedMapperService
-                .Setup(s => s.Map<IndividualBookDetails>(googleClientResult))
+                .Setup(s => s.Map<IndividualBookDetails>(googleClientResult.Content))
                 .Returns(mapperServiceResult);
 
             var bookEntryParameter = new Book(bookId);
@@ -134,6 +134,7 @@ namespace GoogleBooks.Api.Integration.Tests
             var book = new Book("unexistingId");
             var expectedResult = new NotFound<IndividualBookDetails>("The book Id doesn't exist");
 
+            _mockedGoogleClientService.Setup(x => x.GetBookDetailsAsync(book.Id)).ReturnsAsync(new NotFound<GoogleBookDetailsFull>(It.IsAny<string>()));
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
             // Act
@@ -153,7 +154,7 @@ namespace GoogleBooks.Api.Integration.Tests
 
             _mockedGoogleClientService
                 .Setup(s => s.GetBookDetailsAsync(book.Id))
-                .Throws(new Exception("Google client unexpected exception"));
+                .Throws(new Exception(expectedResult.ErrorMessage));
             
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
@@ -176,12 +177,11 @@ namespace GoogleBooks.Api.Integration.Tests
                 expectedResult.ErrorMessage,
                 new Exception()
             );
-            
-            _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(book.Id)).ReturnsAsync(googleClientResult);
 
+            _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(book.Id)).ReturnsAsync(new Ok<GoogleBookDetailsFull>(new GoogleBookDetailsFull()));
             _mockedMapperService
-                .Setup(s => s.Map<IndividualBookDetails>(googleClientResult))
-                .Throws(new Exception("Mapper service unexpected exception"));
+                .Setup(s => s.Map<IndividualBookDetails>(It.IsAny<GoogleBookDetailsFull>()))
+                .Throws(new Exception(expectedResult.ErrorMessage));
             
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
