@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GoogleBooks.Client.Integration.Tests
 {
-    public class BooksCatalogTests : TestFactory
+    public class BooksCatalogTests : TestBase
     {
         private readonly IGoogleBooksClientService _googleBooksClientService;
 
