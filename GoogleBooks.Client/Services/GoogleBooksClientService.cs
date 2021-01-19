@@ -1,6 +1,9 @@
 ﻿using GoogleBooks.Client.Dtos.Output;
 using GoogleBooks.Client.Interfaces;
+using GoogleBooks.Infrastructure.Dtos;
+using GoogleBooks.Infrastructure.Interfaces;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -21,7 +24,7 @@ namespace GoogleBooks.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<GoogleBookDetailsFull> GetBookDetailsAsync(string bookId)
+        public async Task<IActionResponse<GoogleBookDetailsFull>> GetBookDetailsAsync(string bookId)
         {
             try
             {
@@ -29,15 +32,15 @@ namespace GoogleBooks.Client.Services
                 
                 string response = await GetResponseStringAsync();
 
-                return DeserializeResponse<GoogleBookDetailsFull>(response);
+                return new Ok<GoogleBookDetailsFull>(DeserializeResponse<GoogleBookDetailsFull>(response));
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new InternalServerError<GoogleBookDetailsFull>(ex.Message, ex);
             }
         }
 
-        public async Task<GoogleBooksCatalog> GetBooksCatalogAsync(string keywords, int pageSize, int pageNumber)
+        public async Task<IActionResponse<GoogleBooksCatalog>> GetBooksCatalogAsync(string keywords, int pageSize, int pageNumber)
         {
             try
             {
@@ -45,11 +48,11 @@ namespace GoogleBooks.Client.Services
 
                 string response = await GetResponseStringAsync();
 
-                return DeserializeResponse<GoogleBooksCatalog>(response);
+                return new Ok<GoogleBooksCatalog>(DeserializeResponse<GoogleBooksCatalog>(response));
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new InternalServerError<GoogleBooksCatalog>(ex.Message, ex);
             }
         }
 

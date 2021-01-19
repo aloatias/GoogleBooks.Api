@@ -1,18 +1,12 @@
-﻿using GoogleBooks.Api.Dtos.Output.Exceptions;
-
-namespace GoogleBooks.Api.Dtos.Output
+﻿namespace GoogleBooks.Api.Dtos.Output
 {
-    public class IndividualBookDetailsResult : ResultBase
+    public class IndividualBookDetailsResult
     {
         public IndividualBookDetails IndividualBookDetails { get; private set; }
 
-        public IndividualBookDetailsResult(IndividualBookDetails individualBookDetails, StatusEnum status) : base(status)
+        public IndividualBookDetailsResult(IndividualBookDetails individualBookDetails)
         {
             IndividualBookDetails = individualBookDetails;
-        }
-
-        public IndividualBookDetailsResult(ErrorBase error, StatusEnum status) : base(error, status)
-        {
         }
     }
 }

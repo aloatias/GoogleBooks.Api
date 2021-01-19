@@ -1,7 +1,5 @@
 ﻿using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
-using GoogleBooks.Api.Dtos.Output;
-using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +11,7 @@ namespace GoogleBooks.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BooksController : Controller
+    public class BooksController : ControllerBase
     {
         private readonly IDomainFactory _domainFactory;
         private readonly IBooksService _booksService;
@@ -61,24 +59,12 @@ namespace GoogleBooks.Api.Controllers
                 // Create valid book
                 var book = _domainFactory.CreateBook(bookId);
 
-                var bookDetailsResult = await _booksService.GetBookDetailsAsync(book);
-
-                switch (bookDetailsResult.Status)
-                {
-                    case StatusEnum.Ok:
-                        return Ok(bookDetailsResult.IndividualBookDetails);
-                    case StatusEnum.NotFound:
-                        return StatusCode(204, bookDetailsResult.Error.Message);
-                    case StatusEnum.InvalidParamater:
-                        return BadRequest(bookDetailsResult.Error.Message);
-                    default:
-                        return StatusCode(500, bookDetailsResult.Error.Message);
-                }
+                return SendResponse(await _booksService.GetBookDetailsAsync(book));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                return StatusCode(500, ((InvalidBookException)ex).Message);
+                return StatusCode(500, "Un error occured while browsing the book's details");
             }
         }
 
@@ -117,22 +103,12 @@ namespace GoogleBooks.Api.Controllers
                     booksCatalogSearch.PageSize
                 );
 
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
-
-                switch (booksCatalogResult.Status)
-                {
-                    case StatusEnum.Ok:
-                        return Ok(booksCatalogResult);
-                    case StatusEnum.InvalidParamater:
-                        return BadRequest(booksCatalogResult.Error.Message);
-                    default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
-                }
+                return SendResponse(await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogAsync) }");
-                return StatusCode(500, ((InvalidBooksCatalogException)ex).Message);
+                return StatusCode(500, "Un error occured while browsing the catalog");
             }
         }
     }

@@ -5,7 +5,7 @@ namespace GoogleBooks.Api.Domain
 {
     public class Book
     {
-        private const int bookIdLength = 12;
+        private const int _bookIdLength = 12;
 
         public string Id { get; private set; }
 
@@ -16,7 +16,7 @@ namespace GoogleBooks.Api.Domain
                 throw new InvalidBookException(ExceptionMessages.EmptyId);
             }
 
-            if (bookId.Length != bookIdLength)
+            if (bookId.Length != _bookIdLength)
             {
                 throw new InvalidBookException(ExceptionMessages.InvalidIdLength);
             }
