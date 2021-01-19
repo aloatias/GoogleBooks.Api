@@ -2,8 +2,6 @@
 using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
-using GoogleBooks.Api.Dtos.Output.Exceptions;
-using GoogleBooks.Api.Helpers;
 using GoogleBooks.Api.Interfaces;
 using GoogleBooks.Client.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -33,42 +31,37 @@ namespace GoogleBooks.Api.Services
             _logger = logger;
         }
 
-        public async Task<IndividualBookDetailsResult> GetBookDetailsAsync(Book book)
+        public async Task<IActionResponse<IndividualBookDetails>> GetBookDetailsAsync(Book book)
         {
             try
             {
                 if (book == null)
                 {
-                    return new IndividualBookDetailsResult(new InvalidBookException(ExceptionMessages.NullArgument), StatusEnum.InvalidParamater);
+                    return new BadRequest<IndividualBookDetails>("Bad request");
                 }
 
                 var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(book.Id);
                 if (individualBookDetails == null)
                 {
-                    return new IndividualBookDetailsResult
-                    (
-                        new NotFoundException(ExceptionMessages.GetNotFoundMessage(book.Id)), StatusEnum.NotFound
-                    );
+                    return new NotFound<IndividualBookDetails>("The book Id doesn't exist");
                 }
 
-                IndividualBookDetails bookDetails = _mapper.Map<IndividualBookDetails>(individualBookDetails);
-
-                return new IndividualBookDetailsResult(bookDetails, StatusEnum.Ok);
+                return new Ok<IndividualBookDetails>(_mapper.Map<IndividualBookDetails>(individualBookDetails));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                return new IndividualBookDetailsResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
+                return new InternalServerError<IndividualBookDetails>("An error occured", ex);
             }
         }
 
-        public async Task<BooksCatalogResult> GetBooksCatalogAsync(DomainBooksCatalog booksCatalogSearch)
+        public async Task<IActionResponse<BooksCatalogResult>> GetBooksCatalogAsync(DomainBooksCatalog booksCatalogSearch)
         {
             try
             {
                 if (booksCatalogSearch == null)
                 {
-                    return new BooksCatalogResult(new InvalidBookException(ExceptionMessages.NullArgument), StatusEnum.InvalidParamater);
+                    return new BadRequest<BooksCatalogResult>("Bad request");
                 }
 
                 var booksCatalogResult = await _googleBooksClientService.GetBooksCatalogAsync
@@ -88,7 +81,7 @@ namespace GoogleBooks.Api.Services
 
                 if (booksCatalogResult.Items == null)
                 {
-                    return new BooksCatalogResult
+                    var noContentResponse =  new BooksCatalogResult
                     (
                         new BooksCatalogSearchResult
                         (
@@ -98,9 +91,10 @@ namespace GoogleBooks.Api.Services
                                 booksCatalogResult.Kind,
                                 new List<BookDetailsForCatalog>()
                             )
-                        ),
-                        StatusEnum.Ok
+                        )
                     );
+
+                    return new NoContent<BooksCatalogResult>(noContentResponse, "No content was found");
                 }
 
                 List<BookDetailsForCatalog> bookDetails = _mapper.Map<List<BookDetailsForCatalog>>(booksCatalogResult.Items);
@@ -108,12 +102,12 @@ namespace GoogleBooks.Api.Services
                 var booksCatalog = new DtosBooksCatalog(booksCatalogResult.Kind, bookDetails);
                 var booksCatalogSearchResult = new BooksCatalogSearchResult(booksCatalogPaging, booksCatalog);
 
-                return new BooksCatalogResult(booksCatalogSearchResult, StatusEnum.Ok);
+                return new Ok<BooksCatalogResult>(new BooksCatalogResult(booksCatalogSearchResult));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBooksCatalogAsync) }");
-                return new BooksCatalogResult(new InternalServerException(ex.Message), StatusEnum.InternalError);
+                return new InternalServerError<BooksCatalogResult>(ex.Message, ex);
             }
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Api.Controllers
@@ -65,14 +66,14 @@ namespace GoogleBooks.Api.Controllers
 
                 switch (bookDetailsResult.Status)
                 {
-                    case StatusEnum.Ok:
-                        return Ok(bookDetailsResult.IndividualBookDetails);
-                    case StatusEnum.NotFound:
-                        return StatusCode(204, bookDetailsResult.Error.Message);
-                    case StatusEnum.InvalidParamater:
-                        return BadRequest(bookDetailsResult.Error.Message);
+                    case HttpStatusCode.OK:
+                        return Ok(bookDetailsResult.Content);
+                    case HttpStatusCode.NotFound:
+                        return StatusCode(204, bookDetailsResult.ErrorMessage);
+                    case HttpStatusCode.BadRequest:
+                        return BadRequest(bookDetailsResult.ErrorMessage);
                     default:
-                        return StatusCode(500, bookDetailsResult.Error.Message);
+                        return StatusCode(500, bookDetailsResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
@@ -121,12 +122,12 @@ namespace GoogleBooks.Api.Controllers
 
                 switch (booksCatalogResult.Status)
                 {
-                    case StatusEnum.Ok:
+                    case HttpStatusCode.OK:
                         return Ok(booksCatalogResult);
-                    case StatusEnum.InvalidParamater:
-                        return BadRequest(booksCatalogResult.Error.Message);
+                    case HttpStatusCode.BadRequest:
+                        return BadRequest(booksCatalogResult.ErrorMessage);
                     default:
-                        return StatusCode(500, booksCatalogResult.Error.Message);
+                        return StatusCode(500, booksCatalogResult.ErrorMessage);
                 }
             }
             catch (Exception ex)

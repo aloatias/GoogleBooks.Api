@@ -8,6 +8,11 @@ namespace GoogleBooks.Api.Dtos.Output
 
         public ErrorBase Error { get; private set; }
 
+        public ResultBase()
+        {
+
+        }
+
         protected ResultBase(StatusEnum status)
         {
             Status = status;

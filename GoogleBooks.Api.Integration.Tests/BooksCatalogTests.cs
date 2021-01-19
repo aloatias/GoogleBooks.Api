@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Helpers;
@@ -313,13 +314,17 @@ namespace GoogleBooks.Api.Integration.Tests
                 pageSize,
                 5
             );
-            var expectedResult = new BooksCatalogResult
+
+            var expectedResult = new Ok<BooksCatalogResult>
             (
-                new Dtos.BooksCatalogSearchResult
-                (
-                    booksCatalogPaging,
-                    new BooksCatalog(kind, mapperServiceResult)
-                ), StatusEnum.Ok);
+                new BooksCatalogResult(
+                    new BooksCatalogSearchResult
+                    (
+                        booksCatalogPaging,
+                        new BooksCatalog(kind, mapperServiceResult)
+                    )
+                )
+            );               
 
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
@@ -330,14 +335,14 @@ namespace GoogleBooks.Api.Integration.Tests
 
             // Test
             Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(expectedResult.PagingInfo.Keywords).Equals(actualResult.PagingInfo.Keywords);
-            Check.That(expectedResult.PagingInfo.PageNumber).Equals(actualResult.PagingInfo.PageNumber);
-            Check.That(expectedResult.PagingInfo.PageSize).Equals(actualResult.PagingInfo.PageSize);
-            Check.That(expectedResult.PagingInfo.TotalItems).Equals(actualResult.PagingInfo.TotalItems);
+            Check.That(expectedResult.Content.PagingInfo.Keywords).Equals(actualResult.Content.PagingInfo.Keywords);
+            Check.That(expectedResult.Content.PagingInfo.PageNumber).Equals(actualResult.Content.PagingInfo.PageNumber);
+            Check.That(expectedResult.Content.PagingInfo.PageSize).Equals(actualResult.Content.PagingInfo.PageSize);
+            Check.That(expectedResult.Content.PagingInfo.TotalItems).Equals(actualResult.Content.PagingInfo.TotalItems);
 
-            for (var i = 0; i < actualResult.BooksCatalog.BookDetails.Count; i++)
+            for (var i = 0; i < actualResult.Content.BooksCatalog.BookDetails.Count; i++)
             {
-                Check.That(expectedResult.BooksCatalog.BookDetails[i]).Equals(actualResult.BooksCatalog.BookDetails[i]);
+                Check.That(expectedResult.Content.BooksCatalog.BookDetails[i]).Equals(actualResult.Content.BooksCatalog.BookDetails[i]);
             }
         }
 
@@ -347,7 +352,7 @@ namespace GoogleBooks.Api.Integration.Tests
             // Prepare
             Domain.BooksCatalog booksCatalogParameter = null;
 
-            var expectedResult = new IndividualBookDetailsResult(new InvalidBookException(ExceptionMessages.NullArgument), StatusEnum.InvalidParamater);
+            var expectedResult = new BadRequest("Bad request");
 
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
@@ -356,8 +361,7 @@ namespace GoogleBooks.Api.Integration.Tests
 
             // Test
             Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(expectedResult.Error.Data).Equals(actualResult.Error.Data);
-            Check.That(expectedResult.Error.Message).Equals(actualResult.Error.Message);
+            Check.That(expectedResult.ErrorMessage).Equals(actualResult.ErrorMessage);
         }
 
         [Fact(DisplayName = "Should respond with an empty catalog because keywords were not found")]
@@ -377,13 +381,17 @@ namespace GoogleBooks.Api.Integration.Tests
                 pageSize,
                 0
             );
-            var expectedResult = new BooksCatalogResult
+            var expectedResult = new NoContent<BooksCatalogResult>
             (
-                new Dtos.BooksCatalogSearchResult
-                (
-                    booksCatalogPaging,
-                    new BooksCatalog(kind, new List<BookDetailsForCatalog>())
-                ), StatusEnum.Ok);
+                new BooksCatalogResult(
+                    new BooksCatalogSearchResult
+                    (
+                        booksCatalogPaging,
+                        new BooksCatalog(kind, new List<BookDetailsForCatalog>())
+                    )
+                ),
+                "No content was found"
+            );
 
             var googleClientResult = new GoogleBooksCatalog
             {
@@ -403,12 +411,12 @@ namespace GoogleBooks.Api.Integration.Tests
 
             // Test
             Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(expectedResult.BooksCatalog.BookDetails).Equals(actualResult.BooksCatalog.BookDetails);
-            Check.That(expectedResult.BooksCatalog.Kind).Equals(actualResult.BooksCatalog.Kind);
-            Check.That(expectedResult.PagingInfo.Keywords).Equals(actualResult.PagingInfo.Keywords);
-            Check.That(expectedResult.PagingInfo.PageNumber).Equals(actualResult.PagingInfo.PageNumber);
-            Check.That(expectedResult.PagingInfo.PageSize).Equals(actualResult.PagingInfo.PageSize);
-            Check.That(expectedResult.PagingInfo.TotalItems).Equals(actualResult.PagingInfo.TotalItems);
+            Check.That(expectedResult.Content.BooksCatalog.BookDetails).Equals(actualResult.Content.BooksCatalog.BookDetails);
+            Check.That(expectedResult.Content.BooksCatalog.Kind).Equals(actualResult.Content.BooksCatalog.Kind);
+            Check.That(expectedResult.Content.PagingInfo.Keywords).Equals(actualResult.Content.PagingInfo.Keywords);
+            Check.That(expectedResult.Content.PagingInfo.PageNumber).Equals(actualResult.Content.PagingInfo.PageNumber);
+            Check.That(expectedResult.Content.PagingInfo.PageSize).Equals(actualResult.Content.PagingInfo.PageSize);
+            Check.That(expectedResult.Content.PagingInfo.TotalItems).Equals(actualResult.Content.PagingInfo.TotalItems);
         }
 
         [Fact(DisplayName = "Should respond with an internal server exception because the google client failed")]
@@ -421,11 +429,8 @@ namespace GoogleBooks.Api.Integration.Tests
 
             var googleClientResult = new GoogleBooksCatalog();
 
-            var expectedResult = new BooksCatalogResult
-            (
-                new InternalServerException("Google client unexpected exception"),
-                StatusEnum.InternalError
-            );
+            var expectedResult = new InternalServerError("Un error occured");
+            var expectedException = 
 
             _mockedGoogleClientService
                 .Setup(s => s.GetBooksCatalogAsync(keywords, pageSize, pageNumber))
@@ -440,8 +445,7 @@ namespace GoogleBooks.Api.Integration.Tests
 
             // Test
             Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(actualResult.Error).IsInstanceOf<InternalServerException>();
-            Check.That(expectedResult.Error.Message).Equals(actualResult.Error.Message);
+            Check.That(actualResult.Exception).IsInstanceOf<Exception>();
         }
 
         [Fact(DisplayName = "Should respond with an internal server exception because the mapper service failed")]
@@ -493,11 +497,7 @@ namespace GoogleBooks.Api.Integration.Tests
                 }
             };
 
-            var expectedResult = new BooksCatalogResult
-            (
-                new InternalServerException("Mapper service unexpected exception"),
-                StatusEnum.InternalError
-            );
+            var expectedResult = new InternalServerError("Un error occured");
 
             _mockedGoogleClientService
                 .Setup(s => s.GetBooksCatalogAsync(keywords, pageSize, pageNumber))
@@ -515,8 +515,7 @@ namespace GoogleBooks.Api.Integration.Tests
 
             // Test
             Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(actualResult.Error).IsInstanceOf<InternalServerException>();
-            Check.That(expectedResult.Error.Message).Equals(actualResult.Error.Message);
+            Check.That(actualResult.Exception).IsInstanceOf<Exception>();
         }
     }
 }

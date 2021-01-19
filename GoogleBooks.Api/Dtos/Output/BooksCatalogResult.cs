@@ -8,7 +8,7 @@ namespace GoogleBooks.Api.Dtos.Output
 
         public BooksCatalog BooksCatalog { get; private set; }
 
-        public BooksCatalogResult(BooksCatalogSearchResult booksCatalogSearchResult, StatusEnum status) : base(status)
+        public BooksCatalogResult(BooksCatalogSearchResult booksCatalogSearchResult)
         {
             BooksCatalog = booksCatalogSearchResult.BooksCatalog;
             PagingInfo = booksCatalogSearchResult.PagingInfoResult;
