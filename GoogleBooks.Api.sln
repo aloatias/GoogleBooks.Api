@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Api.Integration
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Client.Integration.Tests", "GoogleBooks.Client.Integration.Tests\GoogleBooks.Client.Integration.Tests.csproj", "{F9E7806E-168F-4406-8C4F-F9F317E2B83A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleBooks.Infrastructure", "..\GoogleBooks.Infrastructure\GoogleBooks.Infrastructure\GoogleBooks.Infrastructure.csproj", "{8E9ED091-F40E-41C5-83E3-907927DAAFA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleBooks.Infrastructure", "GoogleBooks.Infrastructure\GoogleBooks.Infrastructure.csproj", "{F5CE1B51-4690-4944-B732-4FA1D9978BB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,10 @@ Global
 		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9E7806E-168F-4406-8C4F-F9F317E2B83A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E9ED091-F40E-41C5-83E3-907927DAAFA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E9ED091-F40E-41C5-83E3-907927DAAFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E9ED091-F40E-41C5-83E3-907927DAAFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E9ED091-F40E-41C5-83E3-907927DAAFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5CE1B51-4690-4944-B732-4FA1D9978BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5CE1B51-4690-4944-B732-4FA1D9978BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5CE1B51-4690-4944-B732-4FA1D9978BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5CE1B51-4690-4944-B732-4FA1D9978BB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
