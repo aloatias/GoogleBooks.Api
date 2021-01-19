@@ -6,14 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace GoogleBooks.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BooksController : Controller
+    public class BooksController : ControllerBase
     {
         private readonly IDomainFactory _domainFactory;
         private readonly IBooksService _booksService;
@@ -62,18 +61,7 @@ namespace GoogleBooks.Api.Controllers
                 var book = _domainFactory.CreateBook(bookId);
 
                 var bookDetailsResult = await _booksService.GetBookDetailsAsync(book);
-
-                switch (bookDetailsResult.Status)
-                {
-                    case HttpStatusCode.OK:
-                        return Ok(bookDetailsResult.Content);
-                    case HttpStatusCode.NotFound:
-                        return StatusCode(204, bookDetailsResult.ErrorMessage);
-                    case HttpStatusCode.BadRequest:
-                        return BadRequest(bookDetailsResult.ErrorMessage);
-                    default:
-                        return StatusCode(500, bookDetailsResult.ErrorMessage);
-                }
+                return SendResponse(bookDetailsResult);
             }
             catch (Exception ex)
             {
@@ -119,15 +107,7 @@ namespace GoogleBooks.Api.Controllers
 
                 var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
 
-                switch (booksCatalogResult.Status)
-                {
-                    case HttpStatusCode.OK:
-                        return Ok(booksCatalogResult);
-                    case HttpStatusCode.BadRequest:
-                        return BadRequest(booksCatalogResult.ErrorMessage);
-                    default:
-                        return StatusCode(500, booksCatalogResult.ErrorMessage);
-                }
+                return SendResponse(booksCatalogResult);
             }
             catch (Exception ex)
             {
