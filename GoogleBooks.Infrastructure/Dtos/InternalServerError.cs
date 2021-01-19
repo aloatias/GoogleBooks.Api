@@ -18,6 +18,11 @@ namespace GoogleBooks.Infrastructure.Dtos
 
     public class InternalServerError<T> : ActionResponseBase<T> where T : class
     {
+        public InternalServerError(string errorMessage) : base(errorMessage)
+        {
+            SetStatusCode(HttpStatusCode.InternalServerError);
+        }
+
         public InternalServerError(string errorMessage, Exception exception) : base(errorMessage, exception)
         {
             SetStatusCode(HttpStatusCode.InternalServerError);
