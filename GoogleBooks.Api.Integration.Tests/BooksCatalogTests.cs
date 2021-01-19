@@ -38,7 +38,7 @@ namespace GoogleBooks.Api.Integration.Tests
             var pageNumber = 0;
 
             var kind = "Test Kind";
-            var googleClientResult = new GoogleBooksCatalog
+            var googleClientResult = new Ok<GoogleBooksCatalog>( new GoogleBooksCatalog
             {
                 Kind = kind,
                 TotalItems = 5,
@@ -209,7 +209,7 @@ namespace GoogleBooks.Api.Integration.Tests
                         },
                     }
                 }
-            };
+            });
             _mockedGoogleClientService.Setup(s => s.GetBooksCatalogAsync(keywords, pageSize, pageNumber)).ReturnsAsync(googleClientResult);
 
             var mapperServiceResult = new List<BookDetailsForCatalog>
@@ -304,7 +304,7 @@ namespace GoogleBooks.Api.Integration.Tests
                     PageCount = 5
                 }
             };
-            _mockedMapperService.Setup(s => s.Map<List<BookDetailsForCatalog>>(googleClientResult.Items)).Returns(mapperServiceResult);
+            _mockedMapperService.Setup(s => s.Map<List<BookDetailsForCatalog>>(googleClientResult.Content.Items)).Returns(mapperServiceResult);
 
             var booksCatalogPaging = new PagingCatalogResult
             (
@@ -392,12 +392,13 @@ namespace GoogleBooks.Api.Integration.Tests
                 "No content was found"
             );
 
-            var googleClientResult = new GoogleBooksCatalog
+            var googleClientResult = new NoContent<GoogleBooksCatalog>(
+                new GoogleBooksCatalog
             {
                 Kind = kind,
                 Items = null,
                 TotalItems = 0
-            };
+            }, "No content was found");
             
             _mockedGoogleClientService.Setup(s => s.GetBooksCatalogAsync(keywords, pageSize, pageNumber)).ReturnsAsync(googleClientResult);
 
@@ -455,46 +456,50 @@ namespace GoogleBooks.Api.Integration.Tests
             var pageSize = 100;
             var pageNumber = 0;
 
-            var googleClientResult = new GoogleBooksCatalog
-            {
-                Kind = "Test Kind",
-                TotalItems = 1,
-                Items = new GoogleBookDetailsLite[]
+            var googleClientResult = new InternalServerError<GoogleBooksCatalog>(
+                "",
+                new Exception(),
+                new GoogleBooksCatalog
                 {
-                    new GoogleBookDetailsLite
+                    Kind = "Test Kind",
+                    TotalItems = 1,
+                    Items = new GoogleBookDetailsLite[]
                     {
-                        AccessInfo = new AccessInfo
+                        new GoogleBookDetailsLite
                         {
-                            Country = "Test Country 1",
-                            AccessViewStatus = "Test AccessViewStatus",
-                            QuoteSharingAllowed = "Test AccessViewStatus",
-                            TextToSpeechPermission = "Test TextToSpeechPermission",
-                            Viewability = "Test Viewability",
-                            WebReaderLink = "Test WebReaderLink"
-                        },
-                        Kind = "Test Kind",
-                        SelfLink = "Test SelfLink",
-                        SaleInfo = new SaleInfoFull
-                        {
-                            ListPrice = new ListPrice
+                            AccessInfo = new AccessInfo
                             {
-                                Amount = 25,
-                                CurrencyCode = "EUR"
-                            }
-                        },
-                        VolumeInfo = new VolumeInfoLite
-                        {
-                            Authors = new string[] { "Test Author" },
-                            CanonicalVolumeLink = "Test CanonicalVolumeLink",
-                            Description = "Test Description 1",
-                            Categories = new string[] { "Test Category" },
-                            InfoLink = "Test InfoLink",
-                            Language = "Test Languge",
-                            PageCount = 1,
-                        },
+                                Country = "Test Country 1",
+                                AccessViewStatus = "Test AccessViewStatus",
+                                QuoteSharingAllowed = "Test AccessViewStatus",
+                                TextToSpeechPermission = "Test TextToSpeechPermission",
+                                Viewability = "Test Viewability",
+                                WebReaderLink = "Test WebReaderLink"
+                            },
+                            Kind = "Test Kind",
+                            SelfLink = "Test SelfLink",
+                            SaleInfo = new SaleInfoFull
+                            {
+                                ListPrice = new ListPrice
+                                {
+                                    Amount = 25,
+                                    CurrencyCode = "EUR"
+                                }
+                            },
+                            VolumeInfo = new VolumeInfoLite
+                            {
+                                Authors = new string[] { "Test Author" },
+                                CanonicalVolumeLink = "Test CanonicalVolumeLink",
+                                Description = "Test Description 1",
+                                Categories = new string[] { "Test Category" },
+                                InfoLink = "Test InfoLink",
+                                Language = "Test Languge",
+                                PageCount = 1,
+                            },
+                        }
                     }
                 }
-            };
+            );
 
             var expectedResult = new InternalServerError("Un error occured");
 
@@ -503,7 +508,7 @@ namespace GoogleBooks.Api.Integration.Tests
                 .ReturnsAsync(googleClientResult);
 
             _mockedMapperService
-                .Setup(s => s.Map<List<BookDetailsForCatalog>>(googleClientResult.Items))
+                .Setup(s => s.Map<List<BookDetailsForCatalog>>(googleClientResult.Content.Items))
                 .Throws(new Exception("Mapper service unexpected exception"));
 
             var booksCatalogParameter = new Domain.BooksCatalog(keywords, pageNumber, pageSize);

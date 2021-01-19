@@ -78,10 +78,10 @@ namespace GoogleBooks.Api.Services
                     booksCatalogSearch.Keywords,
                     booksCatalogSearch.PageNumber,
                     booksCatalogSearch.PageSize,
-                    booksCatalogResult.TotalItems
+                    booksCatalogResult.Content.TotalItems
                 );
 
-                if (booksCatalogResult.Items == null)
+                if (booksCatalogResult.Content.Items == null)
                 {
                     var noContentResponse =  new BooksCatalogResult
                     (
@@ -90,7 +90,7 @@ namespace GoogleBooks.Api.Services
                             booksCatalogPaging,
                             new DtosBooksCatalog
                             (
-                                booksCatalogResult.Kind,
+                                booksCatalogResult.Content.Kind,
                                 new List<BookDetailsForCatalog>()
                             )
                         )
@@ -99,9 +99,9 @@ namespace GoogleBooks.Api.Services
                     return new NoContent<BooksCatalogResult>(noContentResponse, "No content was found");
                 }
 
-                List<BookDetailsForCatalog> bookDetails = _mapper.Map<List<BookDetailsForCatalog>>(booksCatalogResult.Items);
+                List<BookDetailsForCatalog> bookDetails = _mapper.Map<List<BookDetailsForCatalog>>(booksCatalogResult.Content.Items);
 
-                var booksCatalog = new DtosBooksCatalog(booksCatalogResult.Kind, bookDetails);
+                var booksCatalog = new DtosBooksCatalog(booksCatalogResult.Content.Kind, bookDetails);
                 var booksCatalogSearchResult = new BooksCatalogSearchResult(booksCatalogPaging, booksCatalog);
 
                 return new Ok<BooksCatalogResult>(new BooksCatalogResult(booksCatalogSearchResult));

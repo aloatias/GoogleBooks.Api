@@ -34,40 +34,42 @@ namespace GoogleBooks.Api.Integration.Tests
             // Prepare
             var bookId = "W7Y7CwAAQBAJ";
 
-            var googleClientResult = new GoogleBookDetailsFull
-            {
-                Id = bookId,
-                Etag = "Test Etag",
-                AccessInfo = new AccessInfo
+            var googleClientResult = new Ok<GoogleBookDetailsFull>(
+                new GoogleBookDetailsFull
                 {
-                    Country = "Test Country",
-                    AccessViewStatus = "Test AccessViewStatus",
-                    QuoteSharingAllowed = "Test AccessViewStatus",
-                    TextToSpeechPermission = "Test TextToSpeechPermission",
-                    Viewability = "Test Viewability",
-                    WebReaderLink = "Test WebReaderLink"
-                },
-                Kind = "Test Kind",
-                SelfLink = "Test SelfLink",
-                VolumeInfo = new VolumeInfoFull
-                {
-                    Authors = new string[] { "Test Author" },
-                    CanonicalVolumeLink = "Test CanonicalVolumeLink",
-                    Description = "Test Description",
-                    Categories = new string[] { "Test Category" },
-                    InfoLink = "Test InfoLink",
-                    Language = "Test Languge",
-                    PageCount = 100,
-                },
-                SaleInfo = new SaleInfoFull
-                {
-                    ListPrice = new ListPrice
+                    Id = bookId,
+                    Etag = "Test Etag",
+                    AccessInfo = new AccessInfo
                     {
-                        Amount = 25,
-                        CurrencyCode = "EUR"
+                        Country = "Test Country",
+                        AccessViewStatus = "Test AccessViewStatus",
+                        QuoteSharingAllowed = "Test AccessViewStatus",
+                        TextToSpeechPermission = "Test TextToSpeechPermission",
+                        Viewability = "Test Viewability",
+                        WebReaderLink = "Test WebReaderLink"
+                    },
+                    Kind = "Test Kind",
+                    SelfLink = "Test SelfLink",
+                    VolumeInfo = new VolumeInfoFull
+                    {
+                        Authors = new string[] { "Test Author" },
+                        CanonicalVolumeLink = "Test CanonicalVolumeLink",
+                        Description = "Test Description",
+                        Categories = new string[] { "Test Category" },
+                        InfoLink = "Test InfoLink",
+                        Language = "Test Languge",
+                        PageCount = 100,
+                    },
+                    SaleInfo = new SaleInfoFull
+                    {
+                        ListPrice = new ListPrice
+                        {
+                            Amount = 25,
+                            CurrencyCode = "EUR"
+                        }
                     }
                 }
-            };
+            );
 
             _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(bookId)).ReturnsAsync(googleClientResult);
 
@@ -170,8 +172,11 @@ namespace GoogleBooks.Api.Integration.Tests
             var book = new Book("W7Y7CwAAQBAJ");
             var expectedResult = new InternalServerError("An error occured");
 
-
-            var googleClientResult = new GoogleBookDetailsFull();
+            var googleClientResult = new InternalServerError<GoogleBookDetailsFull>(
+                expectedResult.ErrorMessage,
+                new Exception()
+            );
+            
             _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(book.Id)).ReturnsAsync(googleClientResult);
 
             _mockedMapperService

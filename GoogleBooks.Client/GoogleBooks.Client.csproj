@@ -16,4 +16,8 @@
     <Folder Include="Dtos\Input\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\GoogleBooks.Infrastructure\GoogleBooks.Infrastructure\GoogleBooks.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
