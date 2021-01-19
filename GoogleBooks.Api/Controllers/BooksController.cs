@@ -60,8 +60,7 @@ namespace GoogleBooks.Api.Controllers
                 // Create valid book
                 var book = _domainFactory.CreateBook(bookId);
 
-                var bookDetailsResult = await _booksService.GetBookDetailsAsync(book);
-                return SendResponse(bookDetailsResult);
+                return SendResponse(await _booksService.GetBookDetailsAsync(book));
             }
             catch (Exception ex)
             {
@@ -105,9 +104,7 @@ namespace GoogleBooks.Api.Controllers
                     booksCatalogSearch.PageSize
                 );
 
-                var booksCatalogResult = await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch);
-
-                return SendResponse(booksCatalogResult);
+                return SendResponse(await _booksService.GetBooksCatalogAsync(checkedBooksCatalogSearch));
             }
             catch (Exception ex)
             {
