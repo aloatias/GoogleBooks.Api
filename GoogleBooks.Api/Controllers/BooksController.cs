@@ -1,6 +1,5 @@
 ﻿using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
-using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +64,7 @@ namespace GoogleBooks.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                return StatusCode(500, ((InvalidBookException)ex).Message);
+                return StatusCode(500, "Un error occured while browsing the book's details");
             }
         }
 
@@ -109,7 +108,7 @@ namespace GoogleBooks.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogAsync) }");
-                return StatusCode(500, ((InvalidBooksCatalogException)ex).Message);
+                return StatusCode(500, "Un error occured while browsing the catalog");
             }
         }
     }
