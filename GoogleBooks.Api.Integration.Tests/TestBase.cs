@@ -3,7 +3,7 @@ using Moq;
 
 namespace GoogleBooks.Api.Integration.Tests
 {
-    public class TestFactory
+    public class TestBase
     {
         protected ILogger<T> CreateLogger<T>()
         {

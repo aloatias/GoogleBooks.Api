@@ -53,7 +53,7 @@ namespace GoogleBooks.Api.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBookDetailsAsync) }");
-                return new InternalServerError<IndividualBookDetails>("An error occured", ex);
+                return new InternalServerError<IndividualBookDetails>(ex.Message, ex);
             }
         }
 

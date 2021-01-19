@@ -14,11 +14,11 @@ using Xunit;
 
 namespace GoogleBooks.Api.Integration.Tests
 {
-    public class BookDetailsTests : TestFactory
+    public class BookDetailsTests : TestBase
     {
         private IBooksService _bookService;
-        private Mock<IGoogleBooksClientService> _mockedGoogleClientService;
-        private Mock<IMapper> _mockedMapperService;
+        private readonly Mock<IGoogleBooksClientService> _mockedGoogleClientService;
+        private readonly Mock<IMapper> _mockedMapperService;
         private readonly ILogger<BooksService> _logger;
 
         public BookDetailsTests()
@@ -149,7 +149,7 @@ namespace GoogleBooks.Api.Integration.Tests
         {
             // Prepare
             var book = new Book("W7Y7CwAAQBAJ");
-            var expectedResult = new InternalServerError("An error occured");
+            var expectedResult = new InternalServerError("Google client unexpected exception");
 
             _mockedGoogleClientService
                 .Setup(s => s.GetBookDetailsAsync(book.Id))
@@ -170,7 +170,7 @@ namespace GoogleBooks.Api.Integration.Tests
         {
             // Prepare
             var book = new Book("W7Y7CwAAQBAJ");
-            var expectedResult = new InternalServerError("An error occured");
+            var expectedResult = new InternalServerError("Mapper service unexpected exception");
 
             var googleClientResult = new InternalServerError<GoogleBookDetailsFull>(
                 expectedResult.ErrorMessage,

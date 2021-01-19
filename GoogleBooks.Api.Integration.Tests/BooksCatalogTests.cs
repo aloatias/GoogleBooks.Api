@@ -15,7 +15,7 @@ using Xunit;
 
 namespace GoogleBooks.Api.Integration.Tests
 {
-    public class BooksCatalogTests : TestFactory
+    public class BooksCatalogTests : TestBase
     {
         private IBooksService _bookService;
         private Mock<IGoogleBooksClientService> _mockedGoogleClientService;
