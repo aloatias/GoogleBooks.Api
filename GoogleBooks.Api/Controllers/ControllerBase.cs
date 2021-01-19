@@ -13,11 +13,11 @@ namespace GoogleBooks.Api.Controllers
                 case HttpStatusCode.OK:
                     return Ok(response.Content);
                 case HttpStatusCode.NotFound:
-                    return StatusCode(204, response.ErrorMessage);
+                    return NotFound(response);
                 case HttpStatusCode.BadRequest:
-                    return BadRequest(response.ErrorMessage);
+                    return BadRequest(response);
                 default:
-                    return StatusCode(500, response.ErrorMessage);
+                    return StatusCode(500, response);
             }
         }
     }
