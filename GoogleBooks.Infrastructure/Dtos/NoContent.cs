@@ -12,7 +12,11 @@ namespace GoogleBooks.Infrastructure.Dtos
 
     public class NoContent<T> : ActionResponseBase<T> where T : class
     {
-        public NoContent(T defaultContent, string errorMessage) : base(errorMessage, defaultContent)
+        public NoContent(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public NoContent(string errorMessage, T defaultContent) : base(errorMessage, defaultContent)
         {
             SetStatusCode(HttpStatusCode.NoContent);
         }

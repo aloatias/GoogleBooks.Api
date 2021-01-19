@@ -96,7 +96,7 @@ namespace GoogleBooks.Api.Services
                         )
                     );
 
-                    return new NoContent<BooksCatalogResult>(noContentResponse, "No content was found");
+                    return new NoContent<BooksCatalogResult>("No content was found", noContentResponse);
                 }
 
                 List<BookDetailsForCatalog> bookDetails = _mapper.Map<List<BookDetailsForCatalog>>(booksCatalogResult.Content.Items);

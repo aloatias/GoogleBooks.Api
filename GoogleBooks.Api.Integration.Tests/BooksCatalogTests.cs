@@ -382,23 +382,25 @@ namespace GoogleBooks.Api.Integration.Tests
             );
             var expectedResult = new NoContent<BooksCatalogResult>
             (
+                "No content was found",
                 new BooksCatalogResult(
                     new BooksCatalogSearchResult
                     (
                         booksCatalogPaging,
                         new BooksCatalog(kind, new List<BookDetailsForCatalog>())
                     )
-                ),
-                "No content was found"
+                )
             );
 
             var googleClientResult = new NoContent<GoogleBooksCatalog>(
+                "No content was found",
                 new GoogleBooksCatalog
-            {
-                Kind = kind,
-                Items = null,
-                TotalItems = 0
-            }, "No content was found");
+                {
+                    Kind = kind,
+                    Items = null,
+                    TotalItems = 0
+                }
+            );
             
             _mockedGoogleClientService.Setup(s => s.GetBooksCatalogAsync(keywords, pageSize, pageNumber)).ReturnsAsync(googleClientResult);
 
