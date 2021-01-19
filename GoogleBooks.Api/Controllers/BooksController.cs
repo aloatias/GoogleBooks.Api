@@ -1,6 +1,5 @@
 ﻿using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
-using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Dtos.Output.Exceptions;
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Http;
