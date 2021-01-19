@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
-using GoogleBooks.Api.Dtos.Output.Exceptions;
-using GoogleBooks.Api.Helpers;
 using GoogleBooks.Api.Interfaces;
 using GoogleBooks.Api.Services;
 using GoogleBooks.Client.Dtos.Output;
 using GoogleBooks.Client.Interfaces;
+using GoogleBooks.Infrastructure.Dtos;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NFluent;

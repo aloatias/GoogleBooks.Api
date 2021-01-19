@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GoogleBooks.Infrastructure\GoogleBooks.Infrastructure\GoogleBooks.Infrastructure.csproj" />
     <ProjectReference Include="..\GoogleBooks.Client\GoogleBooks.Client.csproj" />
   </ItemGroup>
 

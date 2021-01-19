@@ -1,6 +1,6 @@
 ﻿using GoogleBooks.Api.Domain;
-using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
+using GoogleBooks.Infrastructure.Interfaces;
 using System.Threading.Tasks;
 using BooksCatalog = GoogleBooks.Api.Domain.BooksCatalog;
 

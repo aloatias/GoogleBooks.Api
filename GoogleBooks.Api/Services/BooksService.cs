@@ -4,6 +4,8 @@ using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Dtos.Output;
 using GoogleBooks.Api.Interfaces;
 using GoogleBooks.Client.Interfaces;
+using GoogleBooks.Infrastructure.Dtos;
+using GoogleBooks.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
