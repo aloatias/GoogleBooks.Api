@@ -3,7 +3,6 @@
     public class BooksCatalogResult
     {
         public PagingCatalogResult PagingInfo { get; private set; }
-
         public BooksCatalog BooksCatalog { get; private set; }
 
         public BooksCatalogResult(BooksCatalogSearchResult booksCatalogSearchResult)

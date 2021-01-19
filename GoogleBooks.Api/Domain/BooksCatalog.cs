@@ -10,9 +10,7 @@ namespace GoogleBooks.Api.Domain
         private const int _minimalPageSize = 1;
 
         public string Keywords { get; private set; }
-
         public int PageNumber { get; private set; }
-        
         public int PageSize { get; private set; }
 
         public BooksCatalog(string keywords, int pageNumber, int pageSize)
