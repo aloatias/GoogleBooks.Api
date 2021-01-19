@@ -43,12 +43,12 @@ namespace GoogleBooks.Api.Services
                 }
 
                 var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(book.Id);
-                if (individualBookDetails == null)
+                if (individualBookDetails.Content == null)
                 {
                     return new NotFound<IndividualBookDetails>("The book Id doesn't exist");
                 }
 
-                return new Ok<IndividualBookDetails>(_mapper.Map<IndividualBookDetails>(individualBookDetails));
+                return new Ok<IndividualBookDetails>(_mapper.Map<IndividualBookDetails>(individualBookDetails.Content));
             }
             catch (Exception ex)
             {

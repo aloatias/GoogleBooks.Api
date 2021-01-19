@@ -16,8 +16,10 @@ namespace GoogleBooks.Api.Controllers
                     return NotFound(response);
                 case HttpStatusCode.BadRequest:
                     return BadRequest(response);
+                case HttpStatusCode.NoContent:
+                    return NoContent();
                 default:
-                    return StatusCode(500, response);
+                    return StatusCode((int)HttpStatusCode.InternalServerError, response);
             }
         }
     }
