@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GoogleBooks.Client.Integration.Tests
 {
-    public class BooksCatalogTests : TestFactory
+    public class BooksCatalogTests : TestBase
     {
         private readonly IGoogleBooksClientService _googleBooksClientService;
 
@@ -27,8 +27,8 @@ namespace GoogleBooks.Client.Integration.Tests
             var actualResult = await _googleBooksClientService.GetBooksCatalogAsync(keyword, expectedItemsCount, pageNumber);
             
             // Test
-            Check.That(actualResult.Kind).Equals(expectedKind);
-            Check.That(actualResult.Items.Count()).Equals(expectedItemsCount);
+            Check.That(actualResult.Content.Kind).Equals(expectedKind);
+            Check.That(actualResult.Content.Items.Count()).Equals(expectedItemsCount);
         }
 
         [Fact(DisplayName = "Should get null books catalog when not matching keywords")]
@@ -44,9 +44,9 @@ namespace GoogleBooks.Client.Integration.Tests
             var actualResult = await _googleBooksClientService.GetBooksCatalogAsync(keyword, expectedItemsCount, pageNumber);
 
             // Test
-            Check.That(actualResult.Kind).Equals(expectedKind);
-            Check.That(actualResult.Items).IsNull();
-            Check.That(actualResult.TotalItems).Equals(0);
+            Check.That(actualResult.Content.Kind).Equals(expectedKind);
+            Check.That(actualResult.Content.Items).IsNull();
+            Check.That(actualResult.Content.TotalItems).Equals(0);
         }
     }
 }

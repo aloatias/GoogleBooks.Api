@@ -9,7 +9,7 @@ using System.Net.Http;
 
 namespace GoogleBooks.Client.Integration.Tests
 {
-    public class TestFactory
+    public class TestBase
     {
         private const string _baseUrlSectionName = "Urls:Base";
         private const string _getDefaultBooksUrl = "Urls:GetBooksCatalog";
