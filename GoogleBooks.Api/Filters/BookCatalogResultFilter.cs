@@ -29,7 +29,7 @@ namespace GoogleBooks.Api.Filters
             //var booksCatalog = new DtosBooksCatalog(booksCatalogResult.Content.Kind, bookDetails);
             //var booksCatalogSearchResult = new BooksCatalogSearchResult(booksCatalogPaging, booksCatalog);
 
-            ResultFromAction.Value = mapper.Map<IEnumerable<BookDetailsForCatalog>>(ResultFromAction.Value);
+            ActionResult.Value = mapper.Map<IEnumerable<BookDetailsForCatalog>>(ActionResult.Value);
 
             await next();
         }

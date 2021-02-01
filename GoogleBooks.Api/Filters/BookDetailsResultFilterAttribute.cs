@@ -14,7 +14,7 @@ namespace GoogleBooks.Api.Filters
 
             var mapper = context.HttpContext.RequestServices.GetRequiredService<IMapper>();
 
-            ResultFromAction.Value = mapper.Map<IndividualBookDetails>(ResultFromAction.Value);
+            ActionResult.Value = mapper.Map<IndividualBookDetails>(ActionResult.Value);
 
             await next();
         }

@@ -72,9 +72,7 @@ namespace GoogleBooks.Api.Services
 
                 if (booksCatalogResult?.Content?.Items == null)
                 {
-                    var noContentResponse =  new GoogleBooksCatalog();
-
-                    return new NoContent<GoogleBooksCatalog>("No content was found", noContentResponse);
+                    return new NoContent<GoogleBooksCatalog>("No content was found");
                 }
 
                 return new Ok<GoogleBooksCatalog>(booksCatalogResult.Content);
