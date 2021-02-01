@@ -11,7 +11,7 @@ namespace GoogleBooks.Api.Controllers
             switch (response.Status)
             {
                 case HttpStatusCode.OK:
-                    return Ok(response.Content);
+                    return Ok(response);
                 case HttpStatusCode.NotFound:
                     return NotFound(response);
                 case HttpStatusCode.BadRequest:

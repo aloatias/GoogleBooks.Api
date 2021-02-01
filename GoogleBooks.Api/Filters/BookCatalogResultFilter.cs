@@ -13,8 +13,6 @@ namespace GoogleBooks.Api.Filters
         {
             await CheckResultAsync(context, next);
 
-            var test = context.HttpContext.Request.Body;
-
             //var booksCatalogPaging = new PagingCatalogResult
             //(
             //    booksCatalogSearch.Keywords,
