@@ -40,7 +40,7 @@ namespace GoogleBooks.Api.Services
                 }
 
                 var individualBookDetails = await _googleBooksClientService.GetBookDetailsAsync(book.Id);
-                if (individualBookDetails.Content == null)
+                if (individualBookDetails?.Content == null)
                 {
                     return new NotFound<GoogleBookDetailsFull>("The book Id doesn't exist");
                 }
@@ -82,7 +82,7 @@ namespace GoogleBooks.Api.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksService) }", $"Method={ nameof(GetBooksCatalogAsync) }");
-                return new InternalServerError<GoogleBooksCatalog>(ex.Message, ex);
+                throw new InternalServerError<GoogleBooksCatalog>(ex.Message, ex);
             }
         }
     }

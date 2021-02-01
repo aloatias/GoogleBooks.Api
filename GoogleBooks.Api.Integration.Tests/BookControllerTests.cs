@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using GoogleBooks.Api.Controllers;
+﻿using GoogleBooks.Api.Controllers;
 using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
 using GoogleBooks.Api.Interfaces;
