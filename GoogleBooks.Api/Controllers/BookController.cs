@@ -1,5 +1,6 @@
 ﻿using GoogleBooks.Api.Domain;
 using GoogleBooks.Api.Dtos;
+using GoogleBooks.Api.Filters;
 using GoogleBooks.Api.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +12,17 @@ namespace GoogleBooks.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BooksController : ControllerBase
+    public class BookController : ControllerBase
     {
         private readonly IDomainFactory _domainFactory;
         private readonly IBooksService _booksService;
-        private readonly ILogger<BooksController> _logger;
+        private readonly ILogger<BookController> _logger;
 
-        public BooksController
+        public BookController
         (
             IDomainFactory domainFactory,
             IBooksService booksService,
-            ILogger<BooksController> logger
+            ILogger<BookController> logger
         )
         {
             _domainFactory = domainFactory;
@@ -52,6 +53,7 @@ namespace GoogleBooks.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [BookDetailsResultFilter]
         public async Task<IActionResult> GetBookDetailsAsync(string bookId)
         {
             try
@@ -63,7 +65,7 @@ namespace GoogleBooks.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBookDetailsAsync) }");
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BookController) }", $"Method={ nameof(GetBookDetailsAsync) }");
                 return StatusCode(500, "Un error occured while browsing the book's details");
             }
         }
@@ -91,6 +93,7 @@ namespace GoogleBooks.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [BookCatalogResultFilter]
         public async Task<IActionResult> GetBooksCatalogAsync(BooksCatalogSearch booksCatalogSearch)
         {
             try
@@ -107,7 +110,7 @@ namespace GoogleBooks.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BooksController) }", $"Method={ nameof(GetBooksCatalogAsync) }");
+                _logger.LogError(ex.Message, ex.InnerException, $"Class={ nameof(BookController) }", $"Method={ nameof(GetBooksCatalogAsync) }");
                 return StatusCode(500, "Un error occured while browsing the catalog");
             }
         }

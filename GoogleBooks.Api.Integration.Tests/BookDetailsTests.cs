@@ -9,7 +9,6 @@ using GoogleBooks.Infrastructure.Dtos;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NFluent;
-using System;
 using Xunit;
 
 namespace GoogleBooks.Api.Integration.Tests
@@ -34,7 +33,7 @@ namespace GoogleBooks.Api.Integration.Tests
             // Prepare
             var bookId = "W7Y7CwAAQBAJ";
 
-            var googleClientResult = new Ok<GoogleBookDetailsFull>(
+            var expectedResult = new Ok<GoogleBookDetailsFull>(
                 new GoogleBookDetailsFull
                 {
                     Id = bookId,
@@ -71,35 +70,35 @@ namespace GoogleBooks.Api.Integration.Tests
                 }
             );
 
-            _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(bookId)).ReturnsAsync(googleClientResult);
+            _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(bookId)).ReturnsAsync(expectedResult);
 
-            var mapperServiceResult = new IndividualBookDetails
-            {
-                Id = bookId,
-                Etag = "Test Etag",
-                Country = "Test Country",
-                AccessViewStatus = "Test AccessViewStatus",
-                QuoteSharingAllowed = "Test AccessViewStatus",
-                Viewability = "Test Viewability",
-                WebReaderLink = "Test WebReaderLink",
-                Authors = new string[] { "Test Author" },
-                CanonicalVolumeLink = "Test CanonicalVolumeLink",
-                Description = "Test Description",
-                Categories = new string[] { "Test Category" },
-                InfoLink = "Test InfoLink",
-                Language = "Test Languge",
-                PageCount = 100,
-                Price = 25,
-                CurrencyCode = "EUR"
-            };
+            //var mapperServiceResult = new IndividualBookDetails
+            //{
+            //    Id = bookId,
+            //    Etag = "Test Etag",
+            //    Country = "Test Country",
+            //    AccessViewStatus = "Test AccessViewStatus",
+            //    QuoteSharingAllowed = "Test AccessViewStatus",
+            //    Viewability = "Test Viewability",
+            //    WebReaderLink = "Test WebReaderLink",
+            //    Authors = new string[] { "Test Author" },
+            //    CanonicalVolumeLink = "Test CanonicalVolumeLink",
+            //    Description = "Test Description",
+            //    Categories = new string[] { "Test Category" },
+            //    InfoLink = "Test InfoLink",
+            //    Language = "Test Languge",
+            //    PageCount = 100,
+            //    Price = 25,
+            //    CurrencyCode = "EUR"
+            //};
 
-            _mockedMapperService
-                .Setup(s => s.Map<IndividualBookDetails>(googleClientResult.Content))
-                .Returns(mapperServiceResult);
+            //_mockedMapperService
+            //    .Setup(s => s.Map<IndividualBookDetails>(googleClientResult.Content))
+            //    .Returns(mapperServiceResult);
+
+            //var expectedResult = new Ok<IndividualBookDetails>(mapperServiceResult);
 
             var bookEntryParameter = new Book(bookId);
-            var expectedResult = new Ok<IndividualBookDetails>(mapperServiceResult);
-
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
             // Act
@@ -150,47 +149,43 @@ namespace GoogleBooks.Api.Integration.Tests
         {
             // Prepare
             var book = new Book("W7Y7CwAAQBAJ");
-            var expectedResult = new InternalServerError("Google client unexpected exception");
+            var expectedResult = new InternalServerError<GoogleBookDetailsFull>("Google client unexpected exception");
 
             _mockedGoogleClientService
                 .Setup(s => s.GetBookDetailsAsync(book.Id))
-                .Throws(new Exception(expectedResult.ErrorMessage));
+                .Throws(new InternalServerError<GoogleBookDetailsFull>(expectedResult.ErrorMessage));
             
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
-            // Act
-            var actualResult = await _bookService.GetBookDetailsAsync(book);
-
             // Test
-            Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(expectedResult.ErrorMessage).Equals(actualResult.ErrorMessage);
+            Check.ThatAsyncCode(() => _bookService.GetBookDetailsAsync(book)).Throws<InternalServerError<GoogleBookDetailsFull>>();
         }
 
-        [Fact(DisplayName = "Should respond with an internal server exception because the mapper service failed")]
-        public async void Should_RespondInternalServerExceptionWhenFailingOnMapperService()
-        {
-            // Prepare
-            var book = new Book("W7Y7CwAAQBAJ");
-            var expectedResult = new InternalServerError("Mapper service unexpected exception");
+        //[Fact(DisplayName = "Should respond with an internal server exception because the mapper service failed")]
+        //public async void Should_RespondInternalServerExceptionWhenFailingOnMapperService()
+        //{
+        //    // Prepare
+        //    var book = new Book("W7Y7CwAAQBAJ");
+        //    var expectedResult = new InternalServerError("Mapper service unexpected exception");
 
-            var googleClientResult = new InternalServerError<GoogleBookDetailsFull>(
-                expectedResult.ErrorMessage,
-                new Exception()
-            );
+        //    var googleClientResult = new InternalServerError<GoogleBookDetailsFull>(
+        //        expectedResult.ErrorMessage,
+        //        new Exception()
+        //    );
 
-            _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(book.Id)).ReturnsAsync(new Ok<GoogleBookDetailsFull>(new GoogleBookDetailsFull()));
-            _mockedMapperService
-                .Setup(s => s.Map<IndividualBookDetails>(It.IsAny<GoogleBookDetailsFull>()))
-                .Throws(new Exception(expectedResult.ErrorMessage));
+        //    _mockedGoogleClientService.Setup(s => s.GetBookDetailsAsync(book.Id)).ReturnsAsync(new Ok<GoogleBookDetailsFull>(new GoogleBookDetailsFull()));
+        //    _mockedMapperService
+        //        .Setup(s => s.Map<IndividualBookDetails>(It.IsAny<GoogleBookDetailsFull>()))
+        //        .Throws(new Exception(expectedResult.ErrorMessage));
             
-            _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
+        //    _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
-            // Act
-            var actualResult = await _bookService.GetBookDetailsAsync(book);
+        //    // Act
+        //    var actualResult = await _bookService.GetBookDetailsAsync(book);
 
-            // Test
-            Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(expectedResult.ErrorMessage).Equals(actualResult.ErrorMessage);
-        }
+        //    // Test
+        //    Check.That(expectedResult.Status).Equals(actualResult.Status);
+        //    Check.That(expectedResult.ErrorMessage).Equals(actualResult.ErrorMessage);
+        //}
     }
 }

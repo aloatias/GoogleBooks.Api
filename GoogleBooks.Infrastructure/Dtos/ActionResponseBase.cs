@@ -4,7 +4,7 @@ using System.Net;
 
 namespace GoogleBooks.Infrastructure.Dtos
 {
-    public abstract class ActionResponseBase : IActionResponse
+    public abstract class ActionResponseBase : Exception, IActionResponse
     {
         public HttpStatusCode Status { get; private set; }
         public string ErrorMessage { get; private set; }
@@ -31,7 +31,7 @@ namespace GoogleBooks.Infrastructure.Dtos
         }
     }
 
-    public abstract class ActionResponseBase<T> : IActionResponse<T> where T : class
+    public abstract class ActionResponseBase<T> : Exception, IActionResponse<T> where T : class
     {
         public HttpStatusCode Status { get; private set; }
         public T Content { get; private set; }
