@@ -343,7 +343,7 @@ namespace GoogleBooks.Api.Integration.Tests
             // Prepare
             Domain.BooksCatalog booksCatalogParameter = null;
 
-            var expectedResult = new BadRequest("Bad request");
+            var expectedResult = new BadRequest<GoogleBooksCatalog>("Bad request");
 
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
@@ -414,32 +414,23 @@ namespace GoogleBooks.Api.Integration.Tests
         }
 
         [Fact(DisplayName = "Should respond with an internal server exception because the google client failed")]
-        public async void Should_RespondInternalServerExceptionWhenFailingOnGoogleClient()
+        public void Should_RespondInternalServerExceptionWhenFailingOnGoogleClient()
         {
             // Prepare
             var keywords = "Test Keywords";
             var pageSize = 100;
             var pageNumber = 0;
 
-            var googleClientResult = new GoogleBooksCatalog();
-
-            var expectedResult = new InternalServerError("Un error occured");
-            var expectedException = 
-
             _mockedGoogleClientService
                 .Setup(s => s.GetBooksCatalogAsync(keywords, pageSize, pageNumber))
-                .Throws(new Exception("Google client unexpected exception"));
+                .Throws(new InternalServerError<GoogleBooksCatalog>("Google client unexpected exception"));
 
             var booksCatalogParameter = new Domain.BooksCatalog(keywords, pageNumber, pageSize);
 
             _bookService = new BooksService(_mockedGoogleClientService.Object, _mockedMapperService.Object, _logger);
 
-            // Act
-            var actualResult = await _bookService.GetBooksCatalogAsync(booksCatalogParameter);
-
             // Test
-            Check.That(expectedResult.Status).Equals(actualResult.Status);
-            Check.That(actualResult.Exception).IsInstanceOf<Exception>();
+            Check.ThatAsyncCode(async () => await _bookService.GetBooksCatalogAsync(booksCatalogParameter)).Throws<InternalServerError<GoogleBooksCatalog>>();
         }
 
         //[Fact(DisplayName = "Should respond with an internal server exception because the mapper service failed")]

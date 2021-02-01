@@ -70,12 +70,12 @@ namespace GoogleBooks.Api.Services
                     booksCatalogSearch.PageNumber
                 );
 
-                if (booksCatalogResult?.Content?.Items == null)
+                if (booksCatalogResult?.Content?.Items == null || booksCatalogResult?.Content?.Items?.Length == 0)
                 {
-                    return new NoContent<GoogleBooksCatalog>("No content was found");
+                    return new NoContent<GoogleBooksCatalog, DomainBooksCatalog>("No content was found", booksCatalogSearch);
                 }
 
-                return new Ok<GoogleBooksCatalog>(booksCatalogResult.Content);
+                return new Ok<GoogleBooksCatalog, DomainBooksCatalog>(booksCatalogResult.Content, booksCatalogSearch);
             }
             catch (Exception ex)
             {
