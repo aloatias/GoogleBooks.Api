@@ -145,7 +145,7 @@ namespace GoogleBooks.Api.Integration.Tests
         }
 
         [Fact(DisplayName = "Should respond with an internal server exception because the google client failed")]
-        public async void Should_RespondInternalServerExceptionWhenFailingOnGoogleClient()
+        public void Should_RespondInternalServerExceptionWhenFailingOnGoogleClient()
         {
             // Prepare
             var book = new Book("W7Y7CwAAQBAJ");
